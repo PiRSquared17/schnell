@@ -78,7 +78,7 @@ namespace Schwiki
                     string sourcePath = arg.Current;
                     if (sourcePath != "-")
                     {
-                        options.Definitions["title"] = options.FindDefinition("title", Path.GetFileNameWithoutExtension(sourcePath));
+                        options.Variables["title"] = options.FindVariable("title", Path.GetFileNameWithoutExtension(sourcePath));
                         wikiPath = Path.GetDirectoryName(sourcePath);
                         reader = File.OpenText(sourcePath);
                     }
@@ -143,7 +143,7 @@ namespace Schwiki
                 else
                 {
                     // TODO: Add URL-encoding support
-                    HttpUtility.HtmlEncode(options.FindDefinition(key, key + "?"), writer);
+                    HttpUtility.HtmlEncode(options.FindVariable(key, key + "?"), writer);
                 }
 
                 index = match.Index + match.Length;
@@ -190,7 +190,7 @@ namespace Schwiki
                         {
                             string value = GetOptionValue(e);
                             string[] parts = value.Split(new char[] { '=' }, 2);
-                            options.Definitions[parts[0]] = parts[1];
+                            options.Variables[parts[0]] = parts[1];
                             break;
                         }
                         case "t":
@@ -243,36 +243,36 @@ namespace Schwiki
         [Serializable]
         private sealed class Options
         {
-            private Dictionary<string, string> _definitions;
+            private Dictionary<string, string> _variables;
             private string _templatePath;
             private string _bodyName;
             private string _namePattern;
 
-            public bool HasDefinitions
+            public bool HasVariables
             {
-                get { return _definitions != null && _definitions.Count > 0; }
+                get { return _variables != null && _variables.Count > 0; }
             }
 
-            public Dictionary<string, string> Definitions
+            public Dictionary<string, string> Variables
             {
                 get
                 {
-                    if (_definitions == null)
-                        _definitions = new Dictionary<string, string>();
+                    if (_variables == null)
+                        _variables = new Dictionary<string, string>();
 
-                    return _definitions;
+                    return _variables;
                 }
             }
 
-            public string FindDefinition(string name)
+            public string FindVariable(string name)
             {
-                return FindDefinition(name, string.Empty);
+                return FindVariable(name, string.Empty);
             }
 
-            public string FindDefinition(string name, string defaultValue)
+            public string FindVariable(string name, string defaultValue)
             {
                 string value;
-                return HasDefinitions && Definitions.TryGetValue(name, out value) ? value : defaultValue;
+                return HasVariables && Variables.TryGetValue(name, out value) ? value : defaultValue;
             }
 
             public string TemplatePath
