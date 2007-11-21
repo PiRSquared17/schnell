@@ -172,15 +172,25 @@ namespace Schnell
     public sealed class WikiWordToken : WikiToken
     {
         private readonly string _word;
+        private readonly string _text;
 
-        public WikiWordToken(string word)
+        public WikiWordToken(string word) :
+            this(word, null) {}
+
+        public WikiWordToken(string word, string text)
         {
             _word = word ?? string.Empty;
+            _text = string.IsNullOrEmpty(text) ? (word ?? string.Empty) : text;
         }
 
         public string Word
         {
             get { return _word; }
+        }
+        
+        public string Text
+        {
+            get { return _text; }
         }
     }
     

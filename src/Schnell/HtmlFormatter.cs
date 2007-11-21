@@ -128,7 +128,7 @@ namespace Schnell
                     {
                         writer.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
                         writer.RenderBeginTag(HtmlTextWriterTag.A);
-                        writer.WriteEncodedText(word.Word);
+                        writer.WriteEncodedText(word.Text);
                         writer.RenderEndTag();
                     }
                     else

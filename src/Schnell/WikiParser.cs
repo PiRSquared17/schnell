@@ -76,8 +76,6 @@ namespace Schnell
                     )
                 )+", atoms));
 
-            // TODO: Second part of bracketed URL should be optional.
-
             _inlinesExpression = Regex(FormatKwargs(
                 @"(?<tt1> `      (?<inner> .*?)          `        )
                   (?<tt2> \{\{\{ (?<inner> .*?)          \}\}\}   )
@@ -86,9 +84,9 @@ namespace Schnell
                   (?<del> ~~     (?<inner> .*?)          ~~       )
                   (?<sup> \^     (?<inner> .*?)          \^       )
                   (?<sub> ,,     (?<inner> [^,]{1,40})    ,,      )
-                  (?<a>   \[     (?<inner> ( ((__URL_SCHEMES__) \:) | (__WIKI_WORD__) ) [^\s]+ \s+ [^\]]+) \] )
-                  (?<url>        (?<inner> __URL__)          )
-                  (?<xww>      (?<inner> ! __WIKI_WORD__)       )
+                  (?<a>   \[     (?<inner> ((?<aurl>__URL__) | (?<aww>[a-z]+)) (\s+ (?<atxt>[^\]]+))? ) \] )
+                  (?<url>        (?<inner> __URL__ )              )
+                  (?<xww> !      (?<inner> __WIKI_WORD__ )        )
                   (?<ww>         (?<inner> (?<!\[) __WIKI_WORD__) )"
                 .Replace('\n', '|'), atoms));
         }
@@ -378,28 +376,44 @@ namespace Schnell
 
                 if (match.Groups["xww"].Success)
                 {
-                    yield return new WikiTextToken(content.Substring(1));
+                    yield return new WikiTextToken(content);
                 }
                 else if (match.Groups["ww"].Success)
                 {
-                    yield return new WikiWordToken(match.Value);
+                    yield return new WikiWordToken(content);
                 }
                 else if (match.Groups["url"].Success)
                 {
                     if (IsImageExtension(content))
                         yield return new WikiImageToken(content);
                     else
-                        yield return new WikiHyperlinkToken(match.Value);
+                        yield return new WikiHyperlinkToken(content);
                 }
                 else if (match.Groups["a"].Success)
                 {
-                    string[] parts = content.Split(new char[] { '\x20' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                    content = parts[1].Trim();
+                    WikiToken token;
+                    Group description = match.Groups["atxt"];
+                    if (description.Success)
+                        content = description.Value.Trim();
 
-                    if (IsImageExtension(content))
-                        yield return new WikiImageToken(content, parts[0]);
+                    Group target = match.Groups["aurl"];
+                    if (target.Success)
+                    {
+                        // TODO: Validate well-formedness of URL
+                        
+                        if (Uri.IsWellFormedUriString(content, UriKind.Absolute) && IsImageExtension(content))
+                            token = new WikiImageToken(content, target.Value);
+                        else
+                            token = new WikiHyperlinkToken(target.Value, content);
+                    }
                     else
-                        yield return new WikiHyperlinkToken(parts[0], content);
+                    {
+                        target = match.Groups["aww"];
+                        Debug.Assert(target.Success);
+                        token = new WikiWordToken(target.Value, content);
+                    }
+
+                    yield return token;
                 }
                 else
                 {
