@@ -374,55 +374,22 @@ namespace Schnell
                 if (match.Index > index)
                     yield return new WikiTextToken(text.Substring(index, match.Index - index));
 
-                WikiToken token = null;
                 string content = match.Groups["inner"].Value;
 
-                if (match.Groups["tt1"].Success || match.Groups["tt2"].Success)
-                {
-                    token = new WikiMonospaceToken();
-                }
-                else if (match.Groups["b"].Success)
-                {
-                    token = new WikiBoldToken();
-                }
-                else if (match.Groups["em"].Success)
-                {
-                    token = new WikiItalicToken();
-                }
-                else if (match.Groups["del"].Success)
-                {
-                    token = new WikiStrikeToken();
-                }
-                else if (match.Groups["sup"].Success)
-                {
-                    token = new WikiSuperscriptToken();
-                }
-                else if (match.Groups["sub"].Success)
-                {
-                    token = new WikiSubscriptToken();
-                }
-                else if (match.Groups["xww"].Success)
+                if (match.Groups["xww"].Success)
                 {
                     yield return new WikiTextToken(content.Substring(1));
-                    goto Next;
                 }
                 else if (match.Groups["ww"].Success)
                 {
                     yield return new WikiWordToken(match.Value);
-                    goto Next;
                 }
                 else if (match.Groups["url"].Success)
                 {
                     if (IsImageExtension(content))
-                    {
                         yield return new WikiImageToken(content);
-                        goto Next;
-                    }
                     else
-                    {
                         yield return new WikiHyperlinkToken(match.Value);
-                        goto Next;
-                    }
                 }
                 else if (match.Groups["a"].Success)
                 {
@@ -433,32 +400,45 @@ namespace Schnell
                         yield return new WikiImageToken(content, parts[0]);
                     else
                         yield return new WikiHyperlinkToken(parts[0], content);
-
-                    goto Next;
                 }
-
-                if (token == null)
-                    break;
-
-                if (content.Length > 0)
+                else
                 {
-                    yield return token;
+                    WikiToken token = null;
 
-                    if (token is WikiMonospaceToken || token is WikiHyperlinkToken || token is WikiWordToken)
+                    if (match.Groups["tt1"].Success || match.Groups["tt2"].Success)
+                        token = new WikiMonospaceToken();
+                    else if (match.Groups["b"].Success)
+                        token = new WikiBoldToken();
+                    else if (match.Groups["em"].Success)
+                        token = new WikiItalicToken();
+                    else if (match.Groups["del"].Success)
+                        token = new WikiStrikeToken();
+                    else if (match.Groups["sup"].Success)
+                        token = new WikiSuperscriptToken();
+                    else if (match.Groups["sub"].Success)
+                        token = new WikiSubscriptToken();
+
+                    if (token == null)
+                        break;
+
+                    if (content.Length > 0)
                     {
-                        yield return new WikiTextToken(content);
+                        yield return token;
+
+                        if (token is WikiMonospaceToken || token is WikiHyperlinkToken || token is WikiWordToken)
+                        {
+                            yield return new WikiTextToken(content);
+                        }
+                        else
+                        {
+                            foreach (WikiToken subtoken in ParseInlineMarkup(content))
+                                yield return subtoken;
+                        }
                     }
-                    else
-                    {
-                        foreach (WikiToken subtoken in ParseInlineMarkup(content))
-                            yield return subtoken;
-                    }
+
+                    yield return new WikiEndToken(token);
                 }
 
-                yield return new WikiEndToken(token);
-            
-            Next:
-                
                 index = match.Index + match.Length;
             }
 
