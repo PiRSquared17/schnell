@@ -2,6 +2,9 @@
 pushd "%~dp0"
 setlocal
 
+REM  Note that we only work with the debug build. Ideally we could
+REM  work with either the release or debug build.
+
 set SCHWIKI=..\..\bin\Debug\schwiki.exe
 if not exist "%SCHWIKI%" (
     echo Did you forget to build the project?
@@ -18,14 +21,29 @@ popd
 goto :EOF
 
 :test
+
+REM  Export the wikis using Subversion client
+
 echo Exporting wikis from http://%1.googlecode.com/svn/wiki/
 svn export http://%1.googlecode.com/svn/wiki/ %1
+
+REM  Copy any CSS and JavaScript files needed by the template HTML.
+
 for %%i in (*.css *.js) do copy %%i %1 > nul
+
+REM  Format all wikis into HTML.
+
 for %%i in (%1\*.wiki) do echo Formatting %%i && "%SCHWIKI%" -t wikitemp.html "%%i" "%%~dpni.html" --name-pattern %%([a-z]+)%% -d "time=%DATE% %TIME%" -d url=http://code.google.com/p/%1/wiki/%%~ni
+
+REM  Build an index wiki of wikis and then format it into HTML too.
+
 echo = Index = > %1\index.tmp
 for %%i in (%1\*.wiki) do echo   * [%%~ni] >> %1\index.tmp
 "%SCHWIKI%" -t idxtemp.html %1\index.tmp %1\index.html --name-pattern %%([a-z]+)%% -d "time=%DATE% %TIME%"
 del %1\index.tmp
+
+REM  Launch the index (hopefully) in the default browser.
+
 start %1\index.html
 goto :EOF
 
