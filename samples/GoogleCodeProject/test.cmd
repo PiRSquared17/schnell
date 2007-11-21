@@ -52,7 +52,14 @@ echo.
 echo Notes:
 echo.
 echo   The export is carried out using the Subversion command-line 
-echo   interface so svn.exe must be somewhere in your PATH.
+echo   interface so svn.exe must be somewhere in your PATH. If you
+echo   don't have Subversion installed, you can download it from:
+echo.
+echo   http://subversion.tigris.org/project_packages.html
+echo.
+echo   Note that it is not sufficient to just have TortoiseSVN 
+echo   (http://tortoisesvn.tigris.org/) installed. You must have
+echo   the Subversion client that provides the command-line interface.
 echo.
 echo Limitations:
 echo.
@@ -64,5 +71,8 @@ echo   * This script cannot handle spaces within wiki file names.
 echo.
 echo   * You must have JavaScript enabled in your browser to get the
 echo     code syntax highlighting to work.
+echo.
+echo   * The script cannot detect if the PROJECT argument is a valid
+echo     and hosted project on Google Code.
 
 goto :EOF
