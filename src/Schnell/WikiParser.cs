@@ -190,6 +190,8 @@ namespace Schnell
 
         private static IEnumerator<WikiToken> ParseQuote(Reader<string> reader)
         {
+            Debug.Assert(reader != null);
+
             StringBuilder sb = new StringBuilder();
 
             while (reader.HasMore)
@@ -217,6 +219,8 @@ namespace Schnell
 
         private static IEnumerator<WikiToken> ParseList(Reader<string> reader)
         {
+            Debug.Assert(reader != null);
+
             Stack<WikiToken> lists = new Stack<WikiToken>();
             Stack<int> indents = new Stack<int>();
             indents.Push(0);
@@ -267,6 +271,9 @@ namespace Schnell
 
         private static IEnumerator<WikiToken> ParseHeading(Reader<string> reader, Match match) 
         {
+            Debug.Assert(reader != null);
+            Debug.Assert(reader.HasMore);
+
             reader.Read();
             int level = match.Groups["h"].Value.Length;
             WikiToken heading = new WikiHeadingToken(level);
@@ -277,12 +284,17 @@ namespace Schnell
 
         private static IEnumerator<WikiToken> ParseTag(Reader<string> reader, Match match) 
         {
+            Debug.Assert(reader != null);
+            Debug.Assert(reader.HasMore);
+
             reader.Read();
             yield return new WikiTagToken(match.Groups["k"].Value, match.Groups["v"].Value);
         }
 
         private static IEnumerator<WikiToken> ParseTable(Reader<string> reader) 
         {
+            Debug.Assert(reader != null);
+
             WikiTableToken table = new WikiTableToken();
             yield return table;
 
@@ -316,6 +328,9 @@ namespace Schnell
 
         private static IEnumerator<WikiToken> ParseCode(Reader<string> reader) 
         {
+            Debug.Assert(reader != null);
+            Debug.Assert(reader.HasMore);
+
             int nestings = 1;
             StringBuilder sb = new StringBuilder();
             reader.Read(); // skip {{{
@@ -346,6 +361,8 @@ namespace Schnell
 
         private static IEnumerable<WikiToken> ParseInlineMarkup(string text)
         {
+            Debug.Assert(text != null);
+
             int index = 0;
 
             foreach (Match match in _inlinesExpression.Matches(text))
