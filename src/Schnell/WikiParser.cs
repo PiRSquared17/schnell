@@ -404,23 +404,24 @@ namespace Schnell
                 else if (match.Groups["xww"].Success)
                 {
                     yield return new WikiTextToken(content.Substring(1));
-                    goto Skip;
+                    goto Next;
                 }
                 else if (match.Groups["ww"].Success)
                 {
                     yield return new WikiWordToken(match.Value);
-                    goto Skip;
+                    goto Next;
                 }
                 else if (match.Groups["url"].Success)
                 {
                     if (IsImageExtension(content))
                     {
                         yield return new WikiImageToken(content);
-                        goto Skip;
+                        goto Next;
                     }
                     else
                     {
-                        token = new WikiHyperlinkToken(match.Value);
+                        yield return new WikiHyperlinkToken(match.Value);
+                        goto Next;
                     }
                 }
                 else if (match.Groups["a"].Success)
@@ -429,17 +430,11 @@ namespace Schnell
                     content = parts[1].Trim();
 
                     if (IsImageExtension(content))
-                    {
-                        WikiToken hyperlink = new WikiHyperlinkToken(parts[0]);
-                        yield return hyperlink;
-                        yield return new WikiImageToken(content);
-                        yield return new WikiEndToken(hyperlink);
-                        goto Skip;
-                    }
+                        yield return new WikiImageToken(content, parts[0]);
                     else
-                    {
-                        token = new WikiHyperlinkToken(parts[0]);
-                    }
+                        yield return new WikiHyperlinkToken(parts[0], content);
+
+                    goto Next;
                 }
 
                 if (token == null)
@@ -462,7 +457,7 @@ namespace Schnell
 
                 yield return new WikiEndToken(token);
             
-            Skip:
+            Next:
                 
                 index = match.Index + match.Length;
             }

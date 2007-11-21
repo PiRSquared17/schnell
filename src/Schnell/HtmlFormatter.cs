@@ -93,9 +93,27 @@ namespace Schnell
                 else if (token is WikiImageToken)
                 {
                     WikiImageToken image = (WikiImageToken) token;
+                    
+                    if (image.Href.Length > 0)
+                    {
+                        writer.AddAttribute(HtmlTextWriterAttribute.Href, image.Href);
+                        writer.RenderBeginTag(HtmlTextWriterTag.A);
+                    }
+
                     writer.AddAttribute(HtmlTextWriterAttribute.Src, image.Src);
                     writer.AddAttribute(HtmlTextWriterAttribute.Alt, string.Empty);
                     writer.RenderBeginTag(HtmlTextWriterTag.Img);
+                    writer.RenderEndTag();
+
+                    if (image.Href.Length > 0)
+                        writer.RenderEndTag();
+                }
+                else if (token is WikiHyperlinkToken)
+                {
+                    WikiHyperlinkToken hyperlink = (WikiHyperlinkToken) token;
+                    writer.AddAttribute(HtmlTextWriterAttribute.Href, hyperlink.Href);
+                    writer.RenderBeginTag(HtmlTextWriterTag.A);
+                    writer.WriteEncodedText(hyperlink.Text);
                     writer.RenderEndTag();
                 }
                 else if (token is WikiWordToken)
@@ -124,12 +142,6 @@ namespace Schnell
                     {
                         WikiHeadingToken heading = (WikiHeadingToken) token;
                         writer.RenderBeginTag("h" + heading.Level.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    }
-                    else if (token is WikiHyperlinkToken)
-                    {
-                        WikiHyperlinkToken hyperlink = (WikiHyperlinkToken) token;
-                        writer.AddAttribute(HtmlTextWriterAttribute.Href, hyperlink.Href);
-                        writer.RenderBeginTag(HtmlTextWriterTag.A);
                     }
                     else if (token is WikiCodeToken)
                     {

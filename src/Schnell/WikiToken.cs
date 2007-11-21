@@ -27,7 +27,6 @@ namespace Schnell
     #region Imports
 
     using System;
-    using System.Diagnostics;
 
     #endregion
 
@@ -121,15 +120,25 @@ namespace Schnell
     public sealed class WikiImageToken : WikiToken
     {
         private readonly string _src;
+        private readonly string _href;
         
-        public WikiImageToken(string src)
+        public WikiImageToken(string src) :
+            this(src, null) {}
+
+        public WikiImageToken(string src, string href)
         {
             _src = src;
+            _href = href;
         }
-        
+
         public string Src
         {
             get { return _src ?? string.Empty; }
+        }
+        
+        public string Href
+        {
+            get { return _href ?? string.Empty; }
         }
     }
 
@@ -137,15 +146,25 @@ namespace Schnell
     public sealed class WikiHyperlinkToken : WikiToken
     {
         private readonly string _href;
+        private readonly string _text;
 
-        public WikiHyperlinkToken(string href)
+        public WikiHyperlinkToken(string href) : 
+            this(href, null) {}
+
+        public WikiHyperlinkToken(string href, string text)
         {
             _href = href;
+            _text = string.IsNullOrEmpty(text) ? href : text;
         }
         
         public string Href
         {
             get { return _href ?? string.Empty; }
+        }
+
+        public string Text
+        {
+            get { return _text ?? string.Empty; }
         }
     }
 
