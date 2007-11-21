@@ -101,18 +101,18 @@ namespace Schnell
         
         public WikiTagToken(string key, string value)
         {
-            _key = key;
-            _value = value;
+            _key = key ?? string.Empty;
+            _value = value ?? string.Empty;
         }
         
         public string Key
         {
-            get { return _key ?? string.Empty; }
+            get { return _key; }
         }
 
         public string Value
         {
-            get { return _value ?? string.Empty; }
+            get { return _value; }
         }
     }
 
@@ -127,18 +127,18 @@ namespace Schnell
 
         public WikiImageToken(string src, string href)
         {
-            _src = src;
-            _href = href;
+            _src = src ?? string.Empty;
+            _href = href ?? string.Empty;
         }
 
         public string Src
         {
-            get { return _src ?? string.Empty; }
+            get { return _src; }
         }
         
         public string Href
         {
-            get { return _href ?? string.Empty; }
+            get { return _href; }
         }
     }
 
@@ -153,18 +153,18 @@ namespace Schnell
 
         public WikiHyperlinkToken(string href, string text)
         {
-            _href = href;
-            _text = string.IsNullOrEmpty(text) ? href : text;
+            _href = href ?? string.Empty;
+            _text = string.IsNullOrEmpty(text) ? (href ?? string.Empty) : text;
         }
         
         public string Href
         {
-            get { return _href ?? string.Empty; }
+            get { return _href; }
         }
 
         public string Text
         {
-            get { return _text ?? string.Empty; }
+            get { return _text; }
         }
     }
 
@@ -175,12 +175,12 @@ namespace Schnell
 
         public WikiWordToken(string word)
         {
-            _word = word;
+            _word = word ?? string.Empty;
         }
 
         public string Word
         {
-            get { return _word ?? string.Empty; }
+            get { return _word; }
         }
     }
     
@@ -191,12 +191,12 @@ namespace Schnell
         
         public WikiTextToken(string text)
         {
-            _text = text;
+            _text = text ?? string.Empty;
         }
         
         public string Text
         {
-            get { return _text ?? string.Empty; }
+            get { return _text; }
         }
     }
 }
