@@ -108,12 +108,12 @@ namespace Schnell
         
         public string Key
         {
-            get { return _key; }
+            get { return _key ?? string.Empty; }
         }
 
         public string Value
         {
-            get { return _value; }
+            get { return _value ?? string.Empty; }
         }
     }
 
@@ -129,7 +129,7 @@ namespace Schnell
         
         public string Src
         {
-            get { return _src; }
+            get { return _src ?? string.Empty; }
         }
     }
 
@@ -145,7 +145,7 @@ namespace Schnell
         
         public string Href
         {
-            get { return _href; }
+            get { return _href ?? string.Empty; }
         }
     }
 
@@ -161,7 +161,7 @@ namespace Schnell
 
         public string Word
         {
-            get { return _word; }
+            get { return _word ?? string.Empty; }
         }
     }
     
@@ -177,7 +177,7 @@ namespace Schnell
         
         public string Text
         {
-            get { return _text; }
+            get { return _text ?? string.Empty; }
         }
     }
 }
