@@ -125,7 +125,7 @@ namespace Schnell
                 {
                     reader.Unread(line);
 
-                    using (IEnumerator<WikiToken> e = GetBlockParser(line, reader))
+                    using (IEnumerator<WikiToken> e = FindBlockParser(reader))
                     {
                         if (e != null)
                         {
@@ -151,8 +151,13 @@ namespace Schnell
             }
         }
 
-        private static IEnumerator<WikiToken> GetBlockParser(string line, Reader<string> reader)
+        private static IEnumerator<WikiToken> FindBlockParser(Reader<string> reader)
         {
+            Debug.Assert(reader != null);
+            Debug.Assert(reader.HasMore);
+
+            string line = reader.Peek();
+
             if (line == "{{{")
                 return ParseCode(reader);
 
