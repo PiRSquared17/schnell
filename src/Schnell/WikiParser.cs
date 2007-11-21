@@ -281,7 +281,8 @@ namespace Schnell
             int level = match.Groups["h"].Value.Length;
             WikiToken heading = new WikiHeadingToken(level);
             yield return heading;
-            yield return new WikiTextToken(match.Groups["t"].Value);
+            foreach (WikiToken token in ParseInlineMarkup(match.Groups["t"].Value))
+                yield return token;
             yield return new WikiEndToken(heading);
         }
 
