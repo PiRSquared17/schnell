@@ -44,7 +44,7 @@ echo Example:
 echo.
 echo   %~n0 support
 echo.
-echo   This example export and format wikis from the project over at
+echo   This example exports and formats wikis from the project over at
 echo   http://support.googlecode.com/. You should really try the above
 echo   and then check out support\WikiSyntax.wiki and, once formatted,
 echo   support\WikiSyntax.html.
@@ -63,9 +63,9 @@ echo   the Subversion client that provides the command-line interface.
 echo.
 echo Limitations:
 echo.
-echo   * The export only occurs once for a given project. To re-run this
-echo     on a project, make sure you delete its sub-directory entirely
-echo     (use rmdir PROJECT /s /q).
+echo   * The export only occurs once for a given project. To re-export
+echo     project, make sure you delete its sub-directory entirely
+echo     (e.g., rmdir PROJECT /s /q).
 echo.
 echo   * This script cannot handle spaces within wiki file names.
 echo.
