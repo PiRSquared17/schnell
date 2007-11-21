@@ -95,6 +95,9 @@ namespace Schnell
 
         public static IEnumerable<WikiToken> Parse(TextReader reader)
         {
+            if (reader == null) 
+                throw new ArgumentNullException("reader");
+
             return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()));
         }
 
