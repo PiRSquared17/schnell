@@ -434,9 +434,9 @@ namespace Schnell
                             foreach (WikiToken subtoken in ParseInlineMarkup(content))
                                 yield return subtoken;
                         }
-                    }
 
-                    yield return new WikiEndToken(token);
+                        yield return new WikiEndToken(token);
+                    }
                 }
 
                 index = match.Index + match.Length;
