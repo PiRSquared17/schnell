@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>%title%</title>
+    <link type="text/css" rel="stylesheet" href="googlecode.css" />
+    <link type="text/css" rel="stylesheet" href="prettify.css" />
+    <link rel="schema.SCHTERMS" href="http://schnell.googlecode.com/" >
+    <meta name="SCHTERMS.dostime" content="%time%" >
+    <script type="text/javascript" src="prettify.js"></script>
+    <script type="text/javascript">
+window.onload = function()
+{
+    // Syntax highlighting as per Google's code formatter S
+    // http://google-code-prettify.googlecode.com/ for details.
+    
+    var pres = document.getElementsByTagName("pre");
+    for (var i = 0; i < pres.length; i++)
+        pres[i].className = 'prettyprint';
+    prettyPrint();
+}
+    </script>
+</head>
+<body>
+    <h1 id="title"><a href="%url%">%title%</a></h1>
+    <div id="wikicontent">
+        %body%
+    </div>
+</body>
+</html>

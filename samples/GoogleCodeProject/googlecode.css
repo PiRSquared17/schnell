@@ -1,0 +1,56 @@
+a:link
+{
+    color: #0000cc;
+}
+body
+{
+    background: #fff;
+    font-size: 83%;
+    font-family: arial, sans-serif;
+}
+td, th
+{
+    font-size: 100%;
+}
+td
+{
+    border: solid 1px #aaa;
+    padding: 5px;
+}
+table
+{
+    border-collapse: separate;
+}
+h1
+{
+    font-size: x-large;
+    margin-top: 0px;
+}
+h2
+{
+    font-size: large;
+}
+h3
+{
+    font-size: medium;
+}
+h4
+{
+    font-size: small;
+}
+img
+{
+    border: 0;
+}
+pre
+{
+  margin-left: 2em;
+  padding: 0.5em;
+  border-left: 3px solid #ccc; 
+}
+#title
+{
+    font-size: large;
+    background-color: #e5ecf9;
+    padding: 0.25em 0.5em;
+}
