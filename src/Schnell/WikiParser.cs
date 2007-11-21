@@ -27,7 +27,6 @@ namespace Schnell
     #region Imports
 
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -96,12 +95,18 @@ namespace Schnell
 
         public static IEnumerable<WikiToken> Parse(TextReader reader)
         {
-            PushbackEnumerator<string> lines = new PushbackEnumerator<string>(Append(GetLines(reader), string.Empty).GetEnumerator());
+            return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()));
+        }
+
+        private static IEnumerable<WikiToken> Parse(Reader<string> reader)
+        {
+            Debug.Assert(reader != null);
+
             StringBuilder pb = new StringBuilder();
             
-            while (lines.MoveNext())
+            while (reader.HasMore)
             {
-                string line = lines.Current.TrimEnd();
+                string line = reader.Read().TrimEnd();
 
                 if (line.Length == 0)
                 {
@@ -118,17 +123,15 @@ namespace Schnell
                 }
                 else
                 {
-                    lines.Push(line);
+                    reader.Unread(line);
 
-                    using (IEnumerator<WikiToken> e = GetBlockParser(line, lines))
+                    using (IEnumerator<WikiToken> e = GetBlockParser(line, reader))
                     {
                         if (e != null)
                         {
                             if (pb.Length > 0)
                             {
-                                lines.MoveNext();
-                                lines.Push(string.Empty);
-                                lines.Push(line);
+                                reader.Unread(string.Empty);
                             }
                             else
                             {
@@ -138,7 +141,7 @@ namespace Schnell
                         }
                         else
                         {
-                            lines.MoveNext();
+                            reader.Read();
                             if (pb.Length > 0)
                                 pb.Append(' ');
                             pb.Append(line.TrimStart());
@@ -148,23 +151,23 @@ namespace Schnell
             }
         }
 
-        private static IEnumerator<WikiToken> GetBlockParser(string line, PushbackEnumerator<string> lines) 
+        private static IEnumerator<WikiToken> GetBlockParser(string line, Reader<string> reader)
         {
             if (line == "{{{")
-                return ParseCode(lines);
+                return ParseCode(reader);
 
             if (IsTable(line))
-                return ParseTable(lines);
+                return ParseTable(reader);
 
             Match match;
 
             match = _tagExpression.Match(line);
             if (match.Success)
-                return ParseTag(lines, match);
+                return ParseTag(reader, match);
 
             match = _headingExpression.Match(line);
             if (match.Success)
-                return ParseHeading(lines, match);
+                return ParseHeading(reader, match);
 
             int spaces = CountCharRepeating(' ', line);
             if (spaces > 0)
@@ -172,25 +175,25 @@ namespace Schnell
                 char nonSpace = line[spaces];
 
                 if (nonSpace == '*' || nonSpace == '#')
-                    return ParseList(lines);
+                    return ParseList(reader);
                 else
-                    return ParseQuote(lines);
+                    return ParseQuote(reader);
             }
 
             return null;
         }
 
-        private static IEnumerator<WikiToken> ParseQuote(PushbackEnumerator<string> e) 
+        private static IEnumerator<WikiToken> ParseQuote(Reader<string> reader)
         {
             StringBuilder sb = new StringBuilder();
 
-            while (e.MoveNext())
+            while (reader.HasMore)
             {
-                string line = e.Current.TrimEnd();
+                string line = reader.Read().TrimEnd();
 
                 if (line.Length == 0 || !char.IsWhiteSpace(line, 0))
                 {
-                    e.Push(line);
+                    reader.Unread(line);
                     break;
                 }
 
@@ -207,21 +210,21 @@ namespace Schnell
             yield return new WikiEndToken(quote);
         }
 
-        private static IEnumerator<WikiToken> ParseList(PushbackEnumerator<string> e) 
+        private static IEnumerator<WikiToken> ParseList(Reader<string> reader)
         {
             Stack<WikiToken> lists = new Stack<WikiToken>();
             Stack<int> indents = new Stack<int>();
             indents.Push(0);
 
-            while (e.MoveNext())
+            while (reader.HasMore)
             {
-                string line = e.Current.TrimEnd();
+                string line = reader.Read().TrimEnd();
 
                 int indent = CountCharRepeating(' ', line);
 
                 if (indent == 0)
                 {
-                    e.Push(e.Current);
+                    reader.Unread(line);
                     break;
                 }
 
@@ -231,7 +234,7 @@ namespace Schnell
                     yield return listToken;
                     lists.Push(listToken);
                     indents.Push(indent);
-                    e.Push(line);
+                    reader.Unread(line);
                     continue;
                 }
 
@@ -242,7 +245,7 @@ namespace Schnell
                         indents.Pop();
                         yield return new WikiEndToken(lists.Pop());
                     }
-                    e.Push(line);
+                    reader.Unread(line);
                     continue;
                 }
 
@@ -257,9 +260,9 @@ namespace Schnell
                 yield return new WikiEndToken(lists.Pop());
         }
 
-        private static IEnumerator<WikiToken> ParseHeading(IEnumerator lines, Match match) 
+        private static IEnumerator<WikiToken> ParseHeading(Reader<string> reader, Match match) 
         {
-            lines.MoveNext();
+            reader.Read();
             int level = match.Groups["h"].Value.Length;
             WikiToken heading = new WikiHeadingToken(level);
             yield return heading;
@@ -267,24 +270,24 @@ namespace Schnell
             yield return new WikiEndToken(heading);
         }
 
-        private static IEnumerator<WikiToken> ParseTag(IEnumerator lines, Match match) 
+        private static IEnumerator<WikiToken> ParseTag(Reader<string> reader, Match match) 
         {
-            lines.MoveNext();
+            reader.Read();
             yield return new WikiTagToken(match.Groups["k"].Value, match.Groups["v"].Value);
         }
 
-        private static IEnumerator<WikiToken> ParseTable(PushbackEnumerator<string> e) 
+        private static IEnumerator<WikiToken> ParseTable(Reader<string> reader) 
         {
             WikiTableToken table = new WikiTableToken();
             yield return table;
 
-            while (e.MoveNext())
+            while (reader.HasMore)
             {
-                string line = e.Current.TrimEnd();
+                string line = reader.Read().TrimEnd();
 
                 if (!IsTable(line))
                 {
-                    e.Push(line);
+                    reader.Unread(line);
                     break;
                 }
 
@@ -306,15 +309,15 @@ namespace Schnell
             yield return new WikiEndToken(table);
         }
 
-        private static IEnumerator<WikiToken> ParseCode(IEnumerator<string> e) 
+        private static IEnumerator<WikiToken> ParseCode(Reader<string> reader) 
         {
             int nestings = 1;
             StringBuilder sb = new StringBuilder();
-            e.MoveNext(); // skip {{{
+            reader.Read(); // skip {{{
 
-            while (e.MoveNext())
+            while (reader.HasMore)
             {
-                string line = e.Current;
+                string line = reader.Read();
 
                 if (line == "{{{")
                     nestings++;
