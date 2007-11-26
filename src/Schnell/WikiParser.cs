@@ -43,6 +43,9 @@ namespace Schnell
         private static readonly Regex _headingExpression;
         private static readonly Regex _inlinesExpression;
 
+        private Converter<string, Uri> _wikiWordResolver;
+        private static readonly Converter<string, Uri> _nonWikiWordResolver = delegate { return null; };
+
         static WikiParser()
         {
             _cellsExpression   = Regex(@"\|\|((?<t>.+?)\|\|)+");
@@ -91,7 +94,13 @@ namespace Schnell
                 .Replace('\n', '|'), atoms));
         }
 
-        public static IEnumerable<WikiToken> Parse(TextReader reader)
+        public Converter<string, Uri> WikiWordResolver
+        {
+            get { return _wikiWordResolver ?? _nonWikiWordResolver; }
+            set { _wikiWordResolver = value; }
+        }
+
+        public IEnumerable<WikiToken> Parse(TextReader reader)
         {
             if (reader == null) 
                 throw new ArgumentNullException("reader");
@@ -99,7 +108,7 @@ namespace Schnell
             return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()));
         }
 
-        private static IEnumerable<WikiToken> Parse(Reader<string> reader)
+        private IEnumerable<WikiToken> Parse(Reader<string> reader)
         {
             Debug.Assert(reader != null);
 
@@ -152,7 +161,7 @@ namespace Schnell
             }
         }
 
-        private static IEnumerator<WikiToken> FindBlockParser(Reader<string> reader)
+        private IEnumerator<WikiToken> FindBlockParser(Reader<string> reader)
         {
             Debug.Assert(reader != null);
             Debug.Assert(reader.HasMore);
@@ -189,7 +198,7 @@ namespace Schnell
             return null;
         }
 
-        private static IEnumerator<WikiToken> ParseQuote(Reader<string> reader)
+        private IEnumerator<WikiToken> ParseQuote(Reader<string> reader)
         {
             Debug.Assert(reader != null);
 
@@ -218,7 +227,7 @@ namespace Schnell
             yield return new WikiEndToken(quote);
         }
 
-        private static IEnumerator<WikiToken> ParseList(Reader<string> reader)
+        private IEnumerator<WikiToken> ParseList(Reader<string> reader)
         {
             Debug.Assert(reader != null);
 
@@ -270,7 +279,7 @@ namespace Schnell
                 yield return new WikiEndToken(lists.Pop());
         }
 
-        private static IEnumerator<WikiToken> ParseHeading(Reader<string> reader, Match match) 
+        private IEnumerator<WikiToken> ParseHeading(Reader<string> reader, Match match) 
         {
             Debug.Assert(reader != null);
             Debug.Assert(reader.HasMore);
@@ -284,7 +293,7 @@ namespace Schnell
             yield return new WikiEndToken(heading);
         }
 
-        private static IEnumerator<WikiToken> ParseTag(Reader<string> reader, Match match) 
+        private IEnumerator<WikiToken> ParseTag(Reader<string> reader, Match match) 
         {
             Debug.Assert(reader != null);
             Debug.Assert(reader.HasMore);
@@ -293,7 +302,7 @@ namespace Schnell
             yield return new WikiTagToken(match.Groups["k"].Value, match.Groups["v"].Value);
         }
 
-        private static IEnumerator<WikiToken> ParseTable(Reader<string> reader) 
+        private IEnumerator<WikiToken> ParseTable(Reader<string> reader) 
         {
             Debug.Assert(reader != null);
 
@@ -328,7 +337,7 @@ namespace Schnell
             yield return new WikiEndToken(table);
         }
 
-        private static IEnumerator<WikiToken> ParseCode(Reader<string> reader) 
+        private IEnumerator<WikiToken> ParseCode(Reader<string> reader) 
         {
             Debug.Assert(reader != null);
             Debug.Assert(reader.HasMore);
@@ -356,7 +365,7 @@ namespace Schnell
                 yield return new WikiCodeToken(sb.ToString());
         }
 
-        private static IEnumerable<WikiToken> ParseInlineMarkup(string text)
+        private IEnumerable<WikiToken> ParseInlineMarkup(string text)
         {
             Debug.Assert(text != null);
 
@@ -375,7 +384,7 @@ namespace Schnell
                 }
                 else if (match.Groups["ww"].Success)
                 {
-                    yield return new WikiWordToken(content);
+                    yield return new WikiWordToken(content, WikiWordResolver(content));
                 }
                 else if (match.Groups["url"].Success)
                 {
@@ -405,7 +414,7 @@ namespace Schnell
                     {
                         target = match.Groups["aww"];
                         Debug.Assert(target.Success);
-                        token = new WikiWordToken(target.Value, content);
+                        token = new WikiWordToken(target.Value, content, WikiWordResolver(target.Value));
                     }
 
                     yield return token;
@@ -454,7 +463,7 @@ namespace Schnell
             if (index < text.Length)
                 yield return new WikiTextToken(text.Substring(index));
         }
-
+        
         private static bool IsImageExtension(string str) 
         {
             Debug.Assert(str != null);

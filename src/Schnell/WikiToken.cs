@@ -172,14 +172,22 @@ namespace Schnell
     {
         private readonly string _word;
         private readonly string _text;
+        private readonly Uri _url;
 
         public WikiWordToken(string word) :
-            this(word, null) {}
+            this(word, null, null) {}
 
-        public WikiWordToken(string word, string text)
+        public WikiWordToken(string word, Uri url) :
+            this(word, null, url) { }
+
+        public WikiWordToken(string word, string text) :
+            this(word, text, null) {}
+
+        public WikiWordToken(string word, string text, Uri url)
         {
             _word = word ?? string.Empty;
             _text = string.IsNullOrEmpty(text) ? (word ?? string.Empty) : text;
+            _url = url;
         }
 
         public string Word
@@ -190,6 +198,11 @@ namespace Schnell
         public string Text
         {
             get { return _text; }
+        }
+        
+        public Uri Url
+        {
+            get { return _url; }
         }
     }
     

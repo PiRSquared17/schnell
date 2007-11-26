@@ -39,21 +39,11 @@ namespace Schnell
     {
         private static readonly Dictionary<Type, HtmlTextWriterTag> _tagByToken;
 
-        private Converter<string, Uri> _wikiWordResolver;
-        private static readonly Converter<string, Uri> _nonWikiWordResolver = delegate { return null; };
-        
-        public Converter<string, Uri> WikiWordResolver
-        {
-            get { return _wikiWordResolver ?? _nonWikiWordResolver; }
-            set { _wikiWordResolver = value; }
-        }
-
         public void Format(IEnumerable<WikiToken> tokens, HtmlTextWriter writer) 
         {
             if (tokens == null) throw new ArgumentNullException("tokens");
             if (writer == null) throw new ArgumentNullException("writer");
 
-            Converter<string, Uri> wikiWordResolver = null;
             Stack<WikiToken> stack = new Stack<WikiToken>();
 
             foreach (WikiToken token in tokens)
@@ -109,15 +99,11 @@ namespace Schnell
                 }
                 else if (token is WikiWordToken)
                 {
-                    if (wikiWordResolver == null)
-                        wikiWordResolver = WikiWordResolver;
-
                     WikiWordToken word = (WikiWordToken) token;
-                    Uri url = wikiWordResolver(word.Word);
 
-                    if (url != null)
+                    if (word.Url != null)
                     {
-                        writer.AddAttribute(HtmlTextWriterAttribute.Href, url.ToString());
+                        writer.AddAttribute(HtmlTextWriterAttribute.Href, word.Url.ToString());
                         writer.RenderBeginTag(HtmlTextWriterTag.A);
                         writer.WriteEncodedText(word.Text);
                         writer.RenderEndTag();

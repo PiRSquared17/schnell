@@ -137,8 +137,9 @@ namespace Schwiki
                 if (string.CompareOrdinal(key, bodyName) == 0)
                 {
                     HtmlFormatter formatter = new HtmlFormatter();
-                    formatter.WikiWordResolver = wikiWordResolver;
-                    formatter.Format(WikiParser.Parse(reader), new XhtmlTextWriter(writer, "  "));
+                    WikiParser parser = new WikiParser();
+                    parser.WikiWordResolver = wikiWordResolver;
+                    formatter.Format(parser.Parse(reader), new XhtmlTextWriter(writer, "  "));
                 }
                 else
                 {
