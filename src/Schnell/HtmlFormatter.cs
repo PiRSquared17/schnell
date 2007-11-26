@@ -63,32 +63,23 @@ namespace Schnell
 
                 if (token is WikiTextToken)
                 {
-                    WikiTextToken text = (WikiTextToken) token;
-                    
-                    if (!(stack.Peek() is WikiCodeToken))
-                        writer.WriteEncodedText(text.Text);
-                    else
-                        HttpUtility.HtmlEncode(text.Text, writer.InnerWriter);
+                    writer.WriteEncodedText(((WikiTextToken) token).Text);
                 }
                 else if (token is WikiEndToken)
                 {
                     WikiToken popped = stack.Pop();
                     Debug.Assert(popped.GetType() == ((WikiEndToken) token).Start.GetType());
 
-                    if (!(popped is WikiCodeToken))
-                    {
-                        writer.RenderEndTag();
+                    writer.RenderEndTag();
 
-                        if (!(popped is WikiMonospaceToken) &&
-                            !(popped is WikiHyperlinkToken))
-                        {
-                            writer.WriteLine();
-                        }
-                    }
-                    else
-                    {
-                        writer.InnerWriter.WriteLine("</pre>");
-                    }
+                    if (!(popped is WikiMonospaceToken) && !(popped is WikiHyperlinkToken))
+                        writer.WriteLine();
+                }
+                else if (token is WikiCodeToken)
+                {
+                    writer.InnerWriter.Write("<pre>");
+                    HttpUtility.HtmlEncode(((WikiCodeToken) token).Text, writer.InnerWriter);
+                    writer.InnerWriter.WriteLine("</pre>");
                 }
                 else if (token is WikiImageToken)
                 {
@@ -142,10 +133,6 @@ namespace Schnell
                     {
                         WikiHeadingToken heading = (WikiHeadingToken) token;
                         writer.RenderBeginTag("h" + heading.Level.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    }
-                    else if (token is WikiCodeToken)
-                    {
-                        writer.InnerWriter.Write("<pre>");
                     }
                     else
                     {

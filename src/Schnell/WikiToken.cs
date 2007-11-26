@@ -64,7 +64,6 @@ namespace Schnell
     // Block tokens
     //
 
-    [ Serializable ] public sealed class WikiCodeToken : WikiToken { }
     [ Serializable ] public sealed class WikiQuoteToken : WikiToken { }
     [ Serializable ] public sealed class WikiParaToken : WikiToken { }
     [ Serializable ] public sealed class WikiNumberedListToken : WikiToken { }
@@ -200,6 +199,22 @@ namespace Schnell
         private readonly string _text;
         
         public WikiTextToken(string text)
+        {
+            _text = text ?? string.Empty;
+        }
+        
+        public string Text
+        {
+            get { return _text; }
+        }
+    }
+
+    [ Serializable ]
+    public sealed class WikiCodeToken : WikiToken
+    {
+        private readonly string _text;
+        
+        public WikiCodeToken(string text)
         {
             _text = text ?? string.Empty;
         }

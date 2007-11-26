@@ -353,12 +353,7 @@ namespace Schnell
             }
 
             if (sb.Length > 0)
-            {
-                WikiCodeToken code = new WikiCodeToken();
-                yield return code;
-                yield return new WikiTextToken(sb.ToString());
-                yield return new WikiEndToken(code);
-            }
+                yield return new WikiCodeToken(sb.ToString());
         }
 
         private static IEnumerable<WikiToken> ParseInlineMarkup(string text)
