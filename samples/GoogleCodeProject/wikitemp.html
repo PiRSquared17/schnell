@@ -8,16 +8,20 @@
     <meta name="SCHTERMS.dostime" content="%time%" >
     <script type="text/javascript" src="prettify.js"></script>
     <script type="text/javascript">
+/* <![CDATA[ */
 window.onload = function()
 {
     // Syntax highlighting as per Google's code formatter S
     // http://google-code-prettify.googlecode.com/ for details.
-    
-    var pres = document.getElementsByTagName("pre");
-    for (var i = 0; i < pres.length; i++)
-        pres[i].className = 'prettyprint';
-    prettyPrint();
+
+    if ("function" === typeof(prettyPrint)) {
+        var pres = document.getElementsByTagName("pre");
+        for (var i = 0; i < pres.length; i++)
+            pres[i].className = 'prettyprint';
+        prettyPrint();
+    }
 }
+/* ]]> */
     </script>
 </head>
 <body>
