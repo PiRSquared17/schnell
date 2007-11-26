@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiPad", "WikiPad.csproj", "{F6F2925E-F4DF-4C59-BC84-704B18EC7567}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schnell", "..\..\src\Schnell\Schnell.csproj", "{320F3F12-47C7-425C-94BF-AFCA4234F4DD}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6F2925E-F4DF-4C59-BC84-704B18EC7567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6F2925E-F4DF-4C59-BC84-704B18EC7567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6F2925E-F4DF-4C59-BC84-704B18EC7567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6F2925E-F4DF-4C59-BC84-704B18EC7567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{320F3F12-47C7-425C-94BF-AFCA4234F4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{320F3F12-47C7-425C-94BF-AFCA4234F4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{320F3F12-47C7-425C-94BF-AFCA4234F4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{320F3F12-47C7-425C-94BF-AFCA4234F4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
