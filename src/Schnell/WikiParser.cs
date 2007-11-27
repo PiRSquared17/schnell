@@ -470,10 +470,10 @@ namespace Schnell
 
             // TODO: Make configurable
 
-            return str.EndsWith(".png") 
-                || str.EndsWith(".gif")
-                || str.EndsWith(".jpg")
-                || str.EndsWith(".jpeg");
+            return str.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+                || str.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+                || str.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                || str.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsTable(string line) 
