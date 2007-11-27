@@ -111,6 +111,10 @@ namespace WikiPad
 
         private void Reformat() 
         {
+            //
+            // Write out the HTML document lead.
+            //
+
             StringWriter sw = new StringWriter();
             XhtmlTextWriter htmlWriter = new XhtmlTextWriter(sw, "  ");
             htmlWriter.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
@@ -133,16 +137,35 @@ namespace WikiPad
       h4{ font-size:small}
       img{ border:0}
       pre{ margin-left:2em;  padding:0.5em;  border-left:3px solid #ccc}");
-            htmlWriter.RenderEndTag(); 
-            htmlWriter.RenderEndTag();
+            htmlWriter.RenderEndTag(/* style */); 
+            htmlWriter.RenderEndTag(/* head */);
             htmlWriter.RenderBeginTag(HtmlTextWriterTag.Body);
 
+            //
+            // Format the wiki into the HTML body.
+            //
+
             new HtmlFormatter().Format(new WikiParser().Parse(new StringReader(_wikiBox.Text)), htmlWriter);
-            
-            htmlWriter.RenderEndTag();
-            htmlWriter.RenderEndTag();
+
+            //
+            // Conclude the HTML document.
+            //
+
+            htmlWriter.RenderEndTag(/* body */);
+            htmlWriter.RenderEndTag(/* html */);
             
             string html = sw.GetStringBuilder().ToString().Replace("\r", string.Empty);
+
+            //
+            // Update the WebBrowser that displays the preview.
+            // 
+            // NOTE! The WebBrowser seems to sometimes steal the focus 
+            // and which can be very annoying if one is editing at the
+            // same time. So we take a note of the active control and 
+            // restore it after updating WebBrowser.
+            //
+
+            System.Windows.Forms.Control activeControl = ActiveControl;
 
             if (_webBrowser.Document != null)
                 _webBrowser.Document.OpenNew(false).Write(html);
@@ -154,6 +177,14 @@ namespace WikiPad
             HighlightMarkup(_htmlBox);
 
             _wikiChanged = false;
+
+            //
+            // Restore the control that was last active before the 
+            // WebBrowser was updated.
+            //
+
+            if (activeControl != null && ActiveControl != activeControl)
+                ActiveControl = activeControl;
         }
 
         private static void HighlightMarkup(RichTextBox rtb)
