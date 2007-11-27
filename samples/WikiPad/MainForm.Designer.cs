@@ -328,7 +328,6 @@ namespace WikiPad
             this._webBrowser.AllowNavigation = false;
             this._webBrowser.AllowWebBrowserDrop = false;
             this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._webBrowser.IsWebBrowserContextMenuEnabled = false;
             this._webBrowser.Location = new System.Drawing.Point(0, 0);
             this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this._webBrowser.Name = "_webBrowser";
