@@ -28,6 +28,7 @@ namespace Schwiki
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.IO;
     using System.Text.RegularExpressions;
@@ -125,7 +126,10 @@ namespace Schwiki
 
             WikiParser parser = new WikiParser();
             parser.WikiWordResolver = wikiWordResolver;
-            IEnumerable<WikiToken> tokens = parser.Parse(reader, options.Variables);
+            NameValueCollection headers = new NameValueCollection();
+            IEnumerable<WikiToken> tokens = parser.Parse(reader, headers);
+            foreach (string key in headers)
+                options.Variables.Add(key, headers[key]);
 
             string bodyName = MaskEmpty(options.BodyName, "body");
 

@@ -28,6 +28,7 @@ namespace Schnell
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
@@ -107,7 +108,7 @@ namespace Schnell
             return Parse(reader, null);
         }
 
-        public IEnumerable<WikiToken> Parse(TextReader reader, IDictionary<string, string> headers)
+        public IEnumerable<WikiToken> Parse(TextReader reader, NameValueCollection headers)
         {
             if (reader == null) 
                 throw new ArgumentNullException("reader");
@@ -115,7 +116,7 @@ namespace Schnell
             return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()), headers);
         }
 
-        private IEnumerable<WikiToken> Parse(Reader<string> reader, IDictionary<string, string> headers)
+        private IEnumerable<WikiToken> Parse(Reader<string> reader, NameValueCollection headers)
         {
             Debug.Assert(reader != null);
 
