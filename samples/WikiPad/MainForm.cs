@@ -191,7 +191,7 @@ namespace WikiPad
         {
             Debug.Assert(rtb != null);
 
-            Font tagFont = new Font(rtb.Font.FontFamily, rtb.Font.Size, FontStyle.Bold);
+            Font tagFont = new Font(rtb.Font.FontFamily, rtb.Font.Size, FontStyle.Regular);
 
             foreach (Match match in _tagExpression.Matches(rtb.Text))
             {
