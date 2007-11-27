@@ -123,6 +123,10 @@ namespace Schwiki
             Debug.Assert(reader != null);
             Debug.Assert(options != null);
 
+            WikiParser parser = new WikiParser();
+            parser.WikiWordResolver = wikiWordResolver;
+            IEnumerable<WikiToken> tokens = parser.Parse(reader, options.Variables);
+
             string bodyName = MaskEmpty(options.BodyName, "body");
 
             char[] buffer = template.ToCharArray();
@@ -137,9 +141,7 @@ namespace Schwiki
                 if (string.CompareOrdinal(key, bodyName) == 0)
                 {
                     HtmlFormatter formatter = new HtmlFormatter();
-                    WikiParser parser = new WikiParser();
-                    parser.WikiWordResolver = wikiWordResolver;
-                    formatter.Format(parser.Parse(reader), new XhtmlTextWriter(writer, "  "));
+                    formatter.Format(tokens, new XhtmlTextWriter(writer, "  "));
                 }
                 else
                 {
