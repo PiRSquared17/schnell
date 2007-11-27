@@ -39,7 +39,8 @@ namespace Schnell
     public sealed class WikiParser
     {
         private static readonly Regex _cellsExpression;
-        private static readonly Regex _tagExpression;
+        private static readonly Regex _headerExpression;
+        private static readonly Regex _commentExpression;
         private static readonly Regex _headingExpression;
         private static readonly Regex _inlinesExpression;
 
@@ -49,7 +50,8 @@ namespace Schnell
         static WikiParser()
         {
             _cellsExpression   = Regex(@"\|\|((?<t>.+?)\|\|)+");
-            _tagExpression = Regex(@"^\#\s*(?<k>[a-z]+)(\s+(?<v>.+))?$");
+            _headerExpression  = Regex(@"^(?<d>\#+)\s*(?<k>\!?[a-z]+)(\s+(?<v>.+))?$");
+            _commentExpression = Regex(@"^\#.+$");
             _headingExpression = Regex(@"^(?<h>=+)\s*(?<t>.+?)\s*=+$");
 
             /*  Consider...
@@ -102,13 +104,47 @@ namespace Schnell
 
         public IEnumerable<WikiToken> Parse(TextReader reader)
         {
+            return Parse(reader, null);
+        }
+
+        public IEnumerable<WikiToken> Parse(TextReader reader, IDictionary<string, string> headers)
+        {
             if (reader == null) 
                 throw new ArgumentNullException("reader");
 
-            return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()));
+            return Parse(new Reader<string>(Append(GetLines(reader), string.Empty).GetEnumerator()), headers);
         }
 
-        private IEnumerable<WikiToken> Parse(Reader<string> reader)
+        private IEnumerable<WikiToken> Parse(Reader<string> reader, IDictionary<string, string> headers)
+        {
+            Debug.Assert(reader != null);
+
+            while (reader.HasMore)
+            {
+                string line = reader.Read().TrimEnd();
+
+                if (line.Length == 0)
+                    continue;
+
+                Match headerMatch = _headerExpression.Match(line);
+                if (!headerMatch.Success)
+                {
+                    reader.Unread(line);
+                    break;
+                }
+
+                if (headers != null)
+                {
+                    GroupCollection groups = headerMatch.Groups;
+                    if (groups["d"].Length == 1)
+                        headers[groups["k"].Value] = groups["v"].Value;
+                }
+            }
+
+            return ParseBody(reader);
+        }
+
+        private IEnumerable<WikiToken> ParseBody(Reader<string> reader)
         {
             Debug.Assert(reader != null);
 
@@ -176,9 +212,9 @@ namespace Schnell
 
             Match match;
 
-            match = _tagExpression.Match(line);
+            match = _commentExpression.Match(line);
             if (match.Success)
-                return ParseTag(reader, match);
+                return ParseComment(reader);
 
             match = _headingExpression.Match(line);
             if (match.Success)
@@ -196,6 +232,15 @@ namespace Schnell
             }
 
             return null;
+        }
+
+        private IEnumerator<WikiToken> ParseComment(Reader<string> reader) 
+        {
+            Debug.Assert(reader != null);
+            Debug.Assert(reader.HasMore);
+
+            reader.Read();
+            return EmptyArray<WikiToken>.Enumerable.GetEnumerator();
         }
 
         private IEnumerator<WikiToken> ParseQuote(Reader<string> reader)
@@ -291,15 +336,6 @@ namespace Schnell
             foreach (WikiToken token in ParseInlineMarkup(match.Groups["t"].Value))
                 yield return token;
             yield return new WikiEndToken(heading);
-        }
-
-        private IEnumerator<WikiToken> ParseTag(Reader<string> reader, Match match) 
-        {
-            Debug.Assert(reader != null);
-            Debug.Assert(reader.HasMore);
-
-            reader.Read();
-            yield return new WikiTagToken(match.Groups["k"].Value, match.Groups["v"].Value);
         }
 
         private IEnumerator<WikiToken> ParseTable(Reader<string> reader) 

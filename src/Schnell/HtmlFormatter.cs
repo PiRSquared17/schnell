@@ -48,9 +48,6 @@ namespace Schnell
 
             foreach (WikiToken token in tokens)
             {
-                if (token is WikiTagToken)
-                    continue;
-
                 if (token is WikiTextToken)
                 {
                     writer.WriteEncodedText(((WikiTextToken) token).Text);

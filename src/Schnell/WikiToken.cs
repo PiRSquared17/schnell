@@ -93,29 +93,6 @@ namespace Schnell
     }
 
     [ Serializable ]
-    public sealed class WikiTagToken : WikiToken
-    {
-        private readonly string _key;
-        private readonly string _value;
-        
-        public WikiTagToken(string key, string value)
-        {
-            _key = key ?? string.Empty;
-            _value = value ?? string.Empty;
-        }
-        
-        public string Key
-        {
-            get { return _key; }
-        }
-
-        public string Value
-        {
-            get { return _value; }
-        }
-    }
-
-    [ Serializable ]
     public sealed class WikiImageToken : WikiToken
     {
         private readonly string _src;
