@@ -107,7 +107,7 @@ namespace Schnell
                     }
                     else
                     {
-                        writer.WriteEncodedText(word.Word);
+                        writer.WriteEncodedText(word.Text);
                     }
                 }
                 else 
