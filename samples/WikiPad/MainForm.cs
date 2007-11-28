@@ -157,34 +157,26 @@ namespace WikiPad
             string html = sw.GetStringBuilder().ToString().Replace("\r", string.Empty);
 
             //
-            // Update the WebBrowser that displays the preview.
-            // 
-            // NOTE! The WebBrowser seems to sometimes steal the focus 
-            // and which can be very annoying if one is editing at the
-            // same time. So we take a note of the active control and 
-            // restore it after updating WebBrowser.
+            // Update the WebBrowser with the HTML preview.
             //
 
-            System.Windows.Forms.Control activeControl = ActiveControl;
+            _webBrowser.AllowNavigation = true;
+            _webBrowser.DocumentText = html;
 
-            if (_webBrowser.Document != null)
-                _webBrowser.Document.OpenNew(false).Write(html);
-            else
-                _webBrowser.DocumentText = html;
+            //
+            // Update the RichTextBox with the HTML source and highlight 
+            // the markup.
+            //
 
             _htmlBox.Clear();
             _htmlBox.Text = html;
             HighlightMarkup(_htmlBox);
 
+            //
+            // The preview is now up to date with the wiki changes.
+            //
+
             _wikiChanged = false;
-
-            //
-            // Restore the control that was last active before the 
-            // WebBrowser was updated.
-            //
-
-            if (activeControl != null && ActiveControl != activeControl)
-                ActiveControl = activeControl;
         }
 
         private static void HighlightMarkup(RichTextBox rtb)
