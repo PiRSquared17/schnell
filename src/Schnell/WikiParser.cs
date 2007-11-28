@@ -285,6 +285,9 @@ namespace Schnell
             {
                 string line = reader.Read().TrimEnd();
 
+                if (line.Length == 0)
+                    continue;
+
                 int indent = CountCharRepeating(' ', line);
 
                 if (indent == 0)
