@@ -431,7 +431,11 @@ namespace WikiPad
             try
             {
                 using (CurrentCursorScope.EnterWait())
-                    text = new WebClient().DownloadString(url);
+                {
+                    WebClient webClient = new WebClient();
+                    webClient.Credentials = CredentialCache.DefaultCredentials;
+                    text = webClient.DownloadString(url);
+                }
             }
             catch (WebException e)
             {
