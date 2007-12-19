@@ -194,7 +194,7 @@ namespace WikiPad
             }
         }
 
-        private void OpenFile(string path)
+        public void OpenFile(string path)
         {
             string text;
 
