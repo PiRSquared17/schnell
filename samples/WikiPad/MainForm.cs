@@ -27,6 +27,7 @@ namespace WikiPad
     #region Imports
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
@@ -38,6 +39,9 @@ namespace WikiPad
     using Microsoft.VisualBasic;
     using Properties;
     using Schnell;
+    using System.ComponentModel.Design;
+    
+    using Control = System.Windows.Forms.Control;
 
     #endregion
 
@@ -51,7 +55,9 @@ namespace WikiPad
         private bool _exiting;
         private readonly string _newLine;
         private Uri _lastImportedUrl;
-
+        private readonly Dictionary<Type, ICommandContainer> _commandsByType;
+        private readonly ControlFocusWatchdog _focusWatchdog;
+        
         private static readonly Regex _tagExpression = new Regex(@"\</?[a-z]+(.*?)\>", 
             RegexOptions.IgnoreCase
             | RegexOptions.Singleline 
@@ -67,6 +73,35 @@ namespace WikiPad
             _saveFileDialog.Filter = _openFileDialog.Filter;
             _title = Text;
 
+            NamedCommandTable commands = new NamedCommandTable();
+            commands.FillStandardCommands();
+            _commandProvider.CommandTable = commands;
+
+            CommandContainer cc = new CommandContainer();
+
+            cc.Add(new Command<TextBoxBase>(StandardCommands.Undo,
+                delegate(TextBoxBase control) { control.Undo(); },
+                delegate(TextBoxBase control) { return !control.ReadOnly && control.CanUndo; }));
+            
+            cc.Add(new Command<TextBoxBase>(StandardCommands.Copy, 
+                delegate(TextBoxBase control) { control.Copy(); }, 
+                delegate(TextBoxBase control) { return control.SelectionLength > 0; }));
+            cc.Add(new Command<TextBoxBase>(StandardCommands.Cut, 
+                delegate(TextBoxBase control) { control.Cut(); },
+                delegate(TextBoxBase control) { return !control.ReadOnly && control.SelectionLength > 0; }));
+            cc.Add(new Command<TextBoxBase>(StandardCommands.Paste,
+                delegate(TextBoxBase control) { control.Paste(); },
+                delegate(TextBoxBase control) { return !control.ReadOnly && Clipboard.ContainsText(); }));
+            
+            cc.Add(new Command<TextBoxBase>(StandardCommands.SelectAll,
+                delegate(TextBoxBase control) { control.SelectAll(); }));
+
+            _commandsByType = new Dictionary<Type, ICommandContainer>();
+            _commandsByType.Add(typeof(TextBoxBase), cc);
+
+            _focusWatchdog = new ControlFocusWatchdog();
+            _focusWatchdog.Watch(_wikiBox, _htmlBox);
+
             switch (Settings.Default.NewLine.ToLowerInvariant())
             {
                 case "mac":
@@ -81,7 +116,7 @@ namespace WikiPad
 
             _webBrowser.DocumentCompleted += delegate { _webBrowser.AllowNavigation = false; };
         }
-        
+
         public string Title
         {
             get { return _title; }
@@ -452,6 +487,69 @@ namespace WikiPad
         {
             _exiting = true;
             Close();
+        }
+
+        //
+        // Edit menus
+        //
+
+        private void EditMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            foreach (ToolStripItem item in _editMenu.DropDownItems)
+            {
+                NamedCommand id = _commandProvider.CommandTable.FindByName(_commandProvider.GetCommand(item));
+
+                if (id != null)
+                {
+                    ICommand command = FindCommand(id);
+                    item.Enabled = command != null && command.Enabled;
+                }
+            }
+        }
+
+        private void StandardCommand_CommandClick(object sender, StandardCommandEventArgs e)
+        {
+            ICommand command = FindCommand(e.Command);
+            if (command != null && command.Enabled)
+                command.Execute();
+        }
+
+        private ICommandContainer FindCommandContainer(Control control)
+        {
+            Debug.Assert(control != null);
+
+            for (Type controlType = control.GetType();
+                 controlType != typeof(Control); controlType = controlType.BaseType)
+            {
+                ICommandContainer container;
+                if (_commandsByType.TryGetValue(controlType, out container))
+                    return container;
+            }
+
+            return null;
+        }
+
+        private ICommand FindCommand(CommandID id)
+        {
+            Debug.Assert(id != null);
+
+            return FindCommand(id, _focusWatchdog.ActiveControl);
+        }
+
+        private ICommand FindCommand(CommandID id, Control target) 
+        {
+            if (target == null)
+                return null;
+
+            ICommandContainer container = FindCommandContainer(target);
+            if (container == null)
+                return null;
+
+            ICommand command = container.FindCommand(id);
+            if (command == null)
+                return null;
+
+            return command.Bind(target);
         }
 
         //

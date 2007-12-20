@@ -38,7 +38,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandContainer.cs" />
     <Compile Include="CursorScope.cs" />
+    <Compile Include="EmptyArray.cs" />
+    <Compile Include="Enumerable.cs" />
+    <Compile Include="ControlFocusWatchdog.cs" />
+    <Compile Include="ICommandContainer.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="ISingletonScopeHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -47,6 +53,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Mask.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="NamedCommand.cs" />
+    <Compile Include="NamedCommandTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -73,6 +82,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SingletonScope.cs" />
+    <Compile Include="StandardCommandEventArgs.cs" />
+    <Compile Include="StandardCommandProvider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StandardCommandProvider.designer.cs">
+      <DependentUpon>StandardCommandProvider.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Schnell\Schnell.csproj">

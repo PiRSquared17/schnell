@@ -193,8 +193,8 @@
   <data name="toolStripMenuItem1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALCwAA
-        CwsBbQSEtwAAAq9JREFUOE+lk9tLk3EYx+uPqKtCKC8KS4qCrM1jioWHSO2gtfI0zUNTyyi1maJz06Et
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK/wAA
+        Cv8BNGKaggAAAq9JREFUOE+lk9tLk3EYx+uPqKtCKC8KS4qCrM1jioWHSO2gtfI0zUNTyyi1maJz06Et
         zelaontpU5LIUl9TqSy1LNFCNDtoqahJoUEU1tUn34HOdRX0wu/ihef7+R2ez7MWWPNfnwRYvaY+f6Oj
         9x2mhmdoTJ3oax5SVd9La9cwEzPzS6XO9U7h568nMAhdCE+76RwbQJxuQxjPJ11M5KimlstlTTx5+d4J
         sgKQwiXWdu6MtDL4fZjRX7NcaCrC8EFN8r1Q/LR6Tmj6iLki8LhvdAViB0jHLrM8wtRfTtucha6FfgZ+
@@ -214,11 +214,11 @@
   <metadata name="exitToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="editToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <metadata name="undoToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
+  </metadata>
+  <metadata name="_commandProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>561, 17</value>
   </metadata>
   <metadata name="redoToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
