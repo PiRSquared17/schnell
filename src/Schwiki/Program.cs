@@ -72,6 +72,7 @@ namespace Schwiki
             try
             {
                 string wikiPath = null;
+                string wikiExtension = null;
                 string htmlExtension = null;
 
                 if (arg.MoveNext())
@@ -81,6 +82,7 @@ namespace Schwiki
                     {
                         options.Variables["title"] = options.FindVariable("title", Path.GetFileNameWithoutExtension(sourcePath));
                         wikiPath = Path.GetDirectoryName(sourcePath);
+                        wikiExtension = Path.GetExtension(sourcePath);
                         reader = File.OpenText(sourcePath);
                     }
                 }
@@ -95,14 +97,22 @@ namespace Schwiki
                     }
                 }
 
-                if (!string.IsNullOrEmpty(wikiPath) && !string.IsNullOrEmpty(htmlExtension))
+                wikiPath = Mask.EmptyString(wikiPath, Environment.CurrentDirectory);
+                wikiExtension = wikiExtension ?? ".wiki";
+                htmlExtension = htmlExtension ?? ".html";
+
+                wikiWordResolver = delegate(string word)
                 {
-                    wikiWordResolver = delegate(string word)
-                    {
-                        string filename = word + htmlExtension;
-                        return File.Exists(Path.Combine(wikiPath, filename)) ? new Uri(filename, UriKind.Relative) : null;
-                    };
-                }
+                    string filename = word + Mask.EmptyString(htmlExtension, ".html");
+
+                    if (File.Exists(Path.Combine(wikiPath, filename)))
+                        return new Uri(filename, UriKind.Relative);
+                    
+                    if (File.Exists(Path.Combine(wikiPath, word + wikiExtension)))
+                        return new Uri(filename, UriKind.Relative);
+                    
+                    return null;
+                };
 
                 Format(writer ?? Console.Out, File.ReadAllText(options.TemplatePath), 
                        reader ?? Console.In, options, wikiWordResolver);
