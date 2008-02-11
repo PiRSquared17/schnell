@@ -29,6 +29,8 @@ namespace Schnell
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.UI;
     using Schnell;
@@ -46,8 +48,12 @@ namespace Schnell
 
             Stack<WikiToken> stack = new Stack<WikiToken>();
 
-            foreach (WikiToken token in tokens)
+            IEnumerator<WikiToken> e = tokens.GetEnumerator();
+
+            while (e.MoveNext())
             {
+                WikiToken token = e.Current;
+
                 if (token is WikiTextToken)
                 {
                     writer.WriteEncodedText(((WikiTextToken) token).Text);
@@ -114,8 +120,24 @@ namespace Schnell
                 {
                     if (token is WikiHeadingToken)
                     {
+                        List<WikiToken> subtokens = new List<WikiToken>(ReadToEnd(e, token));
+
+                        string text = ExtractText(subtokens);
+                        if (text.Length > 0)
+                        {
+                            string id = Regex.Replace(text, 
+                                @"[^a-z0-9-\.\:_]", "_", 
+                                RegexOptions.IgnoreCase | 
+                                RegexOptions.CultureInvariant | 
+                                RegexOptions.Compiled);
+                            
+                            writer.AddAttribute(HtmlTextWriterAttribute.Id, id);
+                        }
+
                         WikiHeadingToken heading = (WikiHeadingToken) token;
-                        writer.RenderBeginTag("h" + heading.Level.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        writer.RenderBeginTag("h" + heading.Level.ToString(System.Globalization.CultureInfo.InvariantCulture));                        
+                        Format(subtokens, writer);
+                        writer.RenderEndTag();
                     }
                     else
                     {
@@ -126,15 +148,66 @@ namespace Schnell
                             throw new Exception("Don't know how to handle " + token.GetType().Name + ".");
 
                         writer.RenderBeginTag(tag);
+                        stack.Push(token);
                     }
-
-                    stack.Push(token);
                 }
             }
 
             Debug.Assert(stack.Count == 0);
         }
-        
+
+        /// <summary>
+        /// Returns all tokens up to the terminator of the given start token.
+        /// </summary>
+        /// <remarks>
+        /// The source enumerator is left on the terminator token when this 
+        /// method is finished reading.
+        /// </remarks>
+
+        private static IEnumerable<WikiToken> ReadToEnd(IEnumerator<WikiToken> e, WikiToken start)
+        {
+            Debug.Assert(e != null);
+            Debug.Assert(start != null);
+            Debug.Assert(!(start is WikiEndToken));
+
+            while (e.MoveNext())
+            {
+                WikiEndToken end = e.Current as WikiEndToken;
+
+                if (end != null && end.Start == start)
+                    break;
+
+                yield return e.Current;
+            }
+        }
+
+        /// <summary>
+        /// Extracts text from all text tokens found and creates a single 
+        /// string from them.
+        /// </summary>
+
+        private static string ExtractText(IEnumerable<WikiToken> tokens)
+        {
+            Debug.Assert(tokens != null);
+
+            StringBuilder sb = null;
+
+            foreach (WikiToken token in tokens)
+            {
+                WikiTextToken text = token as WikiTextToken;
+                
+                if (text != null && text.Text.Length > 0)
+                {
+                    if (sb == null)    
+                        sb = new StringBuilder();
+
+                    sb.Append(text.Text);
+                }
+            }
+
+            return sb != null && sb.Length > 0 ? sb.ToString() : string.Empty;
+        }
+
         static HtmlFormatter()
         {
             _tagByToken = new Dictionary<Type, HtmlTextWriterTag>();

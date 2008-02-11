@@ -80,7 +80,7 @@ using System.Runtime.InteropServices;
 //
 
 [assembly: AssemblyVersion("0.1.9419.0")]
-[assembly: AssemblyFileVersion("0.1.9419.1657")]
+[assembly: AssemblyFileVersion("0.1.9711.2057")]
 
 //
 // Testing
