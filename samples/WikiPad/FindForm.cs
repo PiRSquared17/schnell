@@ -30,6 +30,7 @@ namespace WikiPad {
             }
             textBox.SelectionStart = searchPosition;
             textBox.SelectionLength = findString.Length;
+            textBox.ScrollToCaret();
         }
     }
 }
