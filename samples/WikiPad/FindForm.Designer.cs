@@ -28,6 +28,7 @@ namespace WikiPad {
             this._findLabel = new System.Windows.Forms.Label();
             this._searchBox = new System.Windows.Forms.TextBox();
             this._findButton = new System.Windows.Forms.Button();
+            this._matchCaseCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // _findLabel
@@ -56,12 +57,23 @@ namespace WikiPad {
             this._findButton.UseVisualStyleBackColor = true;
             this._findButton.Click += new System.EventHandler(this._findButton_Click);
             // 
+            // _matchCaseCheckBox
+            // 
+            this._matchCaseCheckBox.AutoSize = true;
+            this._matchCaseCheckBox.Location = new System.Drawing.Point(16, 52);
+            this._matchCaseCheckBox.Name = "_matchCaseCheckBox";
+            this._matchCaseCheckBox.Size = new System.Drawing.Size(82, 17);
+            this._matchCaseCheckBox.TabIndex = 3;
+            this._matchCaseCheckBox.Text = "Match case";
+            this._matchCaseCheckBox.UseVisualStyleBackColor = true;
+            // 
             // FindForm
             // 
             this.AcceptButton = this._findButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 140);
+            this.ClientSize = new System.Drawing.Size(424, 122);
+            this.Controls.Add(this._matchCaseCheckBox);
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
             this.Controls.Add(this._findLabel);
@@ -82,5 +94,6 @@ namespace WikiPad {
         private System.Windows.Forms.Label _findLabel;
         private System.Windows.Forms.TextBox _searchBox;
         private System.Windows.Forms.Button _findButton;
+        private CheckBox _matchCaseCheckBox;
     }
 }

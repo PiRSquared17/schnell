@@ -10,11 +10,11 @@ namespace WikiPad {
             _textBox = textBox;
         }
 
-        private void _findButton_Click(object sender, System.EventArgs e) {
-            Find(_textBox, _searchBox.Text);
+        private void _findButton_Click(object sender, EventArgs e) {
+            Find(_textBox, _searchBox.Text, _matchCaseCheckBox.Checked);
         }
 
-        private static void Find(TextBoxBase textBox, string findString) {
+        private static void Find(TextBoxBase textBox, string findString, bool caseSensitive) {
             if (!textBox.Text.Contains(findString))
             {
                 MessageBox.Show(String.Format("Cannot find \"{0}\"", findString), Application.ProductName);
@@ -22,7 +22,10 @@ namespace WikiPad {
             }
             if (textBox.SelectionStart == textBox.Text.Length) textBox.SelectionStart = 0;
             int searchPosition = textBox.SelectionStart >= 0 ? textBox.SelectionStart + textBox.SelectionLength : 0;
-            searchPosition = textBox.Text.IndexOf(findString, searchPosition);
+            if (caseSensitive)
+                searchPosition = textBox.Text.IndexOf(findString, searchPosition, StringComparison.CurrentCulture);
+            else
+                searchPosition = textBox.Text.IndexOf(findString, searchPosition, StringComparison.CurrentCultureIgnoreCase);
             if (searchPosition == -1)
             {
                 MessageBox.Show(String.Format("No further occurences of \"{0}\" have been found", findString), Application.ProductName);
