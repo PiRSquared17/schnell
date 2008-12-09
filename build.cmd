@@ -1,5 +1,5 @@
 @echo off
-pushd %~dp0\src
+pushd "%~dp0src"
 for %%i in (*.sln) do call :build %%i
 popd
 goto :EOF
