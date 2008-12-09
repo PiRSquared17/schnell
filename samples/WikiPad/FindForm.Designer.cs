@@ -60,7 +60,7 @@ namespace WikiPad {
             // 
             this.AcceptButton = this._findButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 140);
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
