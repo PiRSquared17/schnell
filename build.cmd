@@ -5,5 +5,5 @@ popd
 goto :EOF
 
 :build
-for %%i in (Debug Release) do %SystemRoot%\Microsoft.NET\Framework\v2.0.50727\msbuild %1 /p:Configuration=%%i
+for %%i in (Debug Release) do %SystemRoot%\Microsoft.NET\Framework\v3.5\msbuild %1 /p:Configuration=%%i
 goto :EOF
