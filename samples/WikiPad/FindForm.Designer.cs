@@ -1,4 +1,6 @@
-﻿namespace WikiPad {
+﻿using System.Windows.Forms;
+
+namespace WikiPad {
     partial class FindForm {
         /// <summary>
         /// Required designer variable.
@@ -24,7 +26,7 @@
         /// </summary>
         private void InitializeComponent() {
             this._findLabel = new System.Windows.Forms.Label();
-            this._findTextBox = new System.Windows.Forms.TextBox();
+            this._searchBox = new System.Windows.Forms.TextBox();
             this._findButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -37,12 +39,12 @@
             this._findLabel.TabIndex = 0;
             this._findLabel.Text = "Find what:";
             // 
-            // _findTextBox
+            // _searchBox
             // 
-            this._findTextBox.Location = new System.Drawing.Point(75, 10);
-            this._findTextBox.Name = "_findTextBox";
-            this._findTextBox.Size = new System.Drawing.Size(212, 20);
-            this._findTextBox.TabIndex = 1;
+            this._searchBox.Location = new System.Drawing.Point(75, 10);
+            this._searchBox.Name = "_searchBox";
+            this._searchBox.Size = new System.Drawing.Size(212, 20);
+            this._searchBox.TabIndex = 1;
             // 
             // _findButton
             // 
@@ -58,15 +60,15 @@
             // 
             this.AcceptButton = this._findButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 140);
             this.Controls.Add(this._findButton);
-            this.Controls.Add(this._findTextBox);
+            this.Controls.Add(this._searchBox);
             this.Controls.Add(this._findLabel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Find";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -76,7 +78,7 @@
         #endregion
 
         private System.Windows.Forms.Label _findLabel;
-        private System.Windows.Forms.TextBox _findTextBox;
+        private System.Windows.Forms.TextBox _searchBox;
         private System.Windows.Forms.Button _findButton;
     }
 }
