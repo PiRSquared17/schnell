@@ -65,11 +65,13 @@ namespace WikiPad {
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
             this.Controls.Add(this._findLabel);
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindForm";
-            this.StartPosition = FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Find";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FindForm_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -32,5 +32,10 @@ namespace WikiPad {
             textBox.SelectionLength = findString.Length;
             textBox.ScrollToCaret();
         }
+
+        private void FindForm_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar ==  27)
+                Close();
+        }
     }
 }
