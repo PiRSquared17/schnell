@@ -144,6 +144,25 @@ namespace WikiPad
             }
         }
 
+        internal void Find(string findString)
+        {
+            if (!_wikiBox.Text.Contains(findString))
+            {
+                MessageBox.Show(String.Format("Cannot find \"{0}\"", findString), "Wikipad");
+                return;
+            }
+            if (_wikiBox.SelectionStart == _wikiBox.Text.Length) _wikiBox.SelectionStart = 0;
+            int searchPosition = _wikiBox.SelectionStart >= 0 ? _wikiBox.SelectionStart + _wikiBox.SelectionLength : 0;
+            searchPosition = _wikiBox.Text.IndexOf(findString, searchPosition);
+            if (searchPosition == -1)
+            {
+                MessageBox.Show(String.Format("No further occurences of \"{0}\" have been found", findString), "Wikipad");
+                return;
+            }
+            _wikiBox.SelectionStart = searchPosition;
+            _wikiBox.SelectionLength = findString.Length;
+        }
+
         private void Reformat() 
         {
             //
@@ -552,6 +571,11 @@ namespace WikiPad
             return command.Bind(target);
         }
 
+        private void findToolStripMenuItem_Click(object sender, EventArgs e) {
+            FindForm findForm = new FindForm(this);
+            findForm.Show(this);
+        }
+
         //
         // Help menus
         //
@@ -560,5 +584,7 @@ namespace WikiPad
         {
             Process.Start("http://code.google.com/p/support/wiki/WikiSyntax");
         }
+
+
     }
 }

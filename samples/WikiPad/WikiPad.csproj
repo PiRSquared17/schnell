@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F6F2925E-F4DF-4C59-BC84-704B18EC7567}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -48,6 +48,12 @@
     <Compile Include="EmptyArray.cs" />
     <Compile Include="Enumerable.cs" />
     <Compile Include="ControlFocusWatchdog.cs" />
+    <Compile Include="FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindForm.Designer.cs">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ICommandContainer.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ISingletonScopeHelper.cs" />
@@ -63,6 +69,9 @@
     <Compile Include="NamedCommandTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>

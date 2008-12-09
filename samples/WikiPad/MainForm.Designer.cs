@@ -81,6 +81,7 @@ namespace WikiPad
             this._webBrowser = new System.Windows.Forms.WebBrowser();
             this._htmlBox = new System.Windows.Forms.RichTextBox();
             this._editMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._timer = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this._mainMenu = new System.Windows.Forms.MenuStrip();
@@ -127,13 +128,13 @@ namespace WikiPad
             helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             wikiSyntaxToolStripMenuItem});
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             helpToolStripMenuItem.Text = "&Help";
             // 
             // wikiSyntaxToolStripMenuItem
             // 
             wikiSyntaxToolStripMenuItem.Name = "wikiSyntaxToolStripMenuItem";
-            wikiSyntaxToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            wikiSyntaxToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             wikiSyntaxToolStripMenuItem.Text = "&Wiki Syntax";
             wikiSyntaxToolStripMenuItem.Click += new System.EventHandler(this.HelpWikiSyntaxMenu_Click);
             // 
@@ -150,7 +151,7 @@ namespace WikiPad
             toolStripSeparator,
             exitToolStripMenuItem});
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -159,7 +160,7 @@ namespace WikiPad
             newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             newToolStripMenuItem.Name = "newToolStripMenuItem";
             newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            newToolStripMenuItem.Size = new System.Drawing.Size(205, 24);
+            newToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             newToolStripMenuItem.Text = "&New";
             newToolStripMenuItem.Click += new System.EventHandler(this.FileNewMenu_Click);
             // 
@@ -169,14 +170,14 @@ namespace WikiPad
             openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            openToolStripMenuItem.Size = new System.Drawing.Size(205, 24);
+            openToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             openToolStripMenuItem.Text = "&Open...";
             openToolStripMenuItem.Click += new System.EventHandler(this.FileOpenMenu_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(202, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -184,39 +185,39 @@ namespace WikiPad
             saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            saveToolStripMenuItem.Size = new System.Drawing.Size(205, 24);
+            saveToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             saveToolStripMenuItem.Text = "&Save";
             saveToolStripMenuItem.Click += new System.EventHandler(this.FileSaveMenu_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new System.Drawing.Size(205, 24);
+            saveAsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             saveAsToolStripMenuItem.Text = "Save &As...";
             saveAsToolStripMenuItem.Click += new System.EventHandler(this.FileSaveAsMenu_Click);
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
+            toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new System.Drawing.Size(205, 24);
+            toolStripMenuItem1.Size = new System.Drawing.Size(177, 22);
             toolStripMenuItem1.Text = "&Import From Web...";
             toolStripMenuItem1.Click += new System.EventHandler(this.ImportFromWebMenu_Click);
             // 
             // toolStripSeparator
             // 
             toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new System.Drawing.Size(202, 6);
+            toolStripSeparator.Size = new System.Drawing.Size(174, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(205, 24);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += new System.EventHandler(this.FileExitMenu_Click);
             // 
@@ -225,7 +226,7 @@ namespace WikiPad
             this._commandProvider.SetCommand(undoToolStripMenuItem, "Undo");
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            undoToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            undoToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
@@ -233,13 +234,13 @@ namespace WikiPad
             this._commandProvider.SetCommand(redoToolStripMenuItem, "Redo");
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            redoToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            redoToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new System.Drawing.Size(189, 6);
+            toolStripSeparator4.Size = new System.Drawing.Size(161, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -248,7 +249,7 @@ namespace WikiPad
             cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            cutToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            cutToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -258,7 +259,7 @@ namespace WikiPad
             copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            copyToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            copyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -268,26 +269,27 @@ namespace WikiPad
             pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            pasteToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            pasteToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             pasteToolStripMenuItem.Text = "&Paste";
             // 
             // toolStripSeparator5
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
-            toolStripSeparator5.Size = new System.Drawing.Size(189, 6);
+            toolStripSeparator5.Size = new System.Drawing.Size(161, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this._commandProvider.SetCommand(selectAllToolStripMenuItem, "SelectAll");
             selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            selectAllToolStripMenuItem.Size = new System.Drawing.Size(192, 24);
+            selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // splitContainer
             // 
             splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            splitContainer.Location = new System.Drawing.Point(3, 3);
+            splitContainer.Location = new System.Drawing.Point(2, 2);
+            splitContainer.Margin = new System.Windows.Forms.Padding(2);
             splitContainer.Name = "splitContainer";
             // 
             // splitContainer.Panel1
@@ -297,20 +299,23 @@ namespace WikiPad
             // splitContainer.Panel2
             // 
             splitContainer.Panel2.Controls.Add(this._webBrowser);
-            splitContainer.Size = new System.Drawing.Size(756, 439);
-            splitContainer.SplitterDistance = 366;
+            splitContainer.Size = new System.Drawing.Size(566, 353);
+            splitContainer.SplitterDistance = 274;
+            splitContainer.SplitterWidth = 3;
             splitContainer.TabIndex = 3;
             // 
             // _wikiBox
             // 
             this._wikiBox.AcceptsReturn = true;
             this._wikiBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._wikiBox.HideSelection = false;
             this._wikiBox.Location = new System.Drawing.Point(0, 0);
+            this._wikiBox.Margin = new System.Windows.Forms.Padding(2);
             this._wikiBox.MaxLength = 131072;
             this._wikiBox.Multiline = true;
             this._wikiBox.Name = "_wikiBox";
             this._wikiBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._wikiBox.Size = new System.Drawing.Size(366, 439);
+            this._wikiBox.Size = new System.Drawing.Size(274, 353);
             this._wikiBox.TabIndex = 1;
             this._wikiBox.TextChanged += new System.EventHandler(this.WikiBox_TextChanged);
             // 
@@ -320,10 +325,11 @@ namespace WikiPad
             this._webBrowser.AllowWebBrowserDrop = false;
             this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this._webBrowser.Location = new System.Drawing.Point(0, 0);
-            this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this._webBrowser.Margin = new System.Windows.Forms.Padding(2);
+            this._webBrowser.MinimumSize = new System.Drawing.Size(15, 16);
             this._webBrowser.Name = "_webBrowser";
             this._webBrowser.ScriptErrorsSuppressed = true;
-            this._webBrowser.Size = new System.Drawing.Size(386, 439);
+            this._webBrowser.Size = new System.Drawing.Size(289, 353);
             this._webBrowser.TabIndex = 0;
             this._webBrowser.WebBrowserShortcutsEnabled = false;
             // 
@@ -334,18 +340,20 @@ namespace WikiPad
             _tabControl.Controls.Add(_htmlSourceTab);
             _tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             _tabControl.Location = new System.Drawing.Point(0, 0);
+            _tabControl.Margin = new System.Windows.Forms.Padding(2);
             _tabControl.Name = "_tabControl";
             _tabControl.SelectedIndex = 0;
-            _tabControl.Size = new System.Drawing.Size(770, 477);
+            _tabControl.Size = new System.Drawing.Size(578, 386);
             _tabControl.TabIndex = 0;
             // 
             // _wikiTab
             // 
             _wikiTab.Controls.Add(splitContainer);
-            _wikiTab.Location = new System.Drawing.Point(4, 28);
+            _wikiTab.Location = new System.Drawing.Point(4, 25);
+            _wikiTab.Margin = new System.Windows.Forms.Padding(2);
             _wikiTab.Name = "_wikiTab";
-            _wikiTab.Padding = new System.Windows.Forms.Padding(3);
-            _wikiTab.Size = new System.Drawing.Size(762, 445);
+            _wikiTab.Padding = new System.Windows.Forms.Padding(2);
+            _wikiTab.Size = new System.Drawing.Size(570, 357);
             _wikiTab.TabIndex = 0;
             _wikiTab.Text = "Wiki/Preview";
             _wikiTab.UseVisualStyleBackColor = true;
@@ -353,10 +361,11 @@ namespace WikiPad
             // _htmlSourceTab
             // 
             _htmlSourceTab.Controls.Add(this._htmlBox);
-            _htmlSourceTab.Location = new System.Drawing.Point(4, 28);
+            _htmlSourceTab.Location = new System.Drawing.Point(4, 25);
+            _htmlSourceTab.Margin = new System.Windows.Forms.Padding(2);
             _htmlSourceTab.Name = "_htmlSourceTab";
-            _htmlSourceTab.Padding = new System.Windows.Forms.Padding(3);
-            _htmlSourceTab.Size = new System.Drawing.Size(762, 445);
+            _htmlSourceTab.Padding = new System.Windows.Forms.Padding(2);
+            _htmlSourceTab.Size = new System.Drawing.Size(570, 357);
             _htmlSourceTab.TabIndex = 1;
             _htmlSourceTab.Text = "HTML Source";
             _htmlSourceTab.UseVisualStyleBackColor = true;
@@ -365,10 +374,11 @@ namespace WikiPad
             // 
             this._htmlBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._htmlBox.Font = new System.Drawing.Font("Lucida Console", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._htmlBox.Location = new System.Drawing.Point(3, 3);
+            this._htmlBox.Location = new System.Drawing.Point(2, 2);
+            this._htmlBox.Margin = new System.Windows.Forms.Padding(2);
             this._htmlBox.Name = "_htmlBox";
             this._htmlBox.ReadOnly = true;
-            this._htmlBox.Size = new System.Drawing.Size(756, 439);
+            this._htmlBox.Size = new System.Drawing.Size(566, 353);
             this._htmlBox.TabIndex = 1;
             this._htmlBox.Text = "";
             // 
@@ -382,11 +392,20 @@ namespace WikiPad
             copyToolStripMenuItem,
             pasteToolStripMenuItem,
             toolStripSeparator5,
-            selectAllToolStripMenuItem});
+            selectAllToolStripMenuItem,
+            this.findToolStripMenuItem});
             this._editMenu.Name = "_editMenu";
-            this._editMenu.Size = new System.Drawing.Size(47, 24);
+            this._editMenu.Size = new System.Drawing.Size(39, 20);
             this._editMenu.Text = "&Edit";
             this._editMenu.DropDownOpening += new System.EventHandler(this.EditMenu_DropDownOpening);
+            // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // _timer
             // 
@@ -400,11 +419,13 @@ namespace WikiPad
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(_tabControl);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(770, 477);
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(578, 386);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(770, 505);
+            this.toolStripContainer1.Size = new System.Drawing.Size(578, 410);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -421,7 +442,7 @@ namespace WikiPad
             helpToolStripMenuItem});
             this._mainMenu.Location = new System.Drawing.Point(0, 0);
             this._mainMenu.Name = "_mainMenu";
-            this._mainMenu.Size = new System.Drawing.Size(770, 28);
+            this._mainMenu.Size = new System.Drawing.Size(578, 24);
             this._mainMenu.TabIndex = 0;
             this._mainMenu.Text = "menuStrip1";
             // 
@@ -437,10 +458,11 @@ namespace WikiPad
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(770, 505);
+            this.ClientSize = new System.Drawing.Size(578, 410);
             this.Controls.Add(this.toolStripContainer1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "WikiPad";
             this.Load += new System.EventHandler(this.Form_Load);
@@ -477,6 +499,7 @@ namespace WikiPad
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private StandardCommandProvider _commandProvider;
         private System.Windows.Forms.ToolStripMenuItem _editMenu;
+        private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
 
     }
 }
