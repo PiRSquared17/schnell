@@ -1,7 +1,12 @@
-﻿using System;
-using System.Windows.Forms;
+﻿namespace WikiPad 
+{
+    #region Imports
 
-namespace WikiPad {
+    using System;
+    using System.Windows.Forms;
+
+    #endregion
+
     public partial class FindForm : Form 
     {
         private readonly TextBoxBase _textBox;
@@ -12,7 +17,7 @@ namespace WikiPad {
             _textBox = textBox;
         }
 
-        private void _findButton_Click(object sender, EventArgs e) 
+        private void FindButton_Click(object sender, EventArgs e) 
         {
             Find(_textBox, _searchBox.Text, _matchCaseCheckBox.Checked, _upRadioButton.Checked);
         }
@@ -64,13 +69,13 @@ namespace WikiPad {
             textBox.ScrollToCaret();
         }
 
-        private void _cancelButton_Click(object sender, EventArgs e) 
+        private void CancelButton_Click(object sender, EventArgs e) 
         {
             Close();
         }
 
-        /// <summary>_findButton should only be enabled when _searchBox contains text.</summary>
-        private void _searchBox_TextChanged(object sender, EventArgs e) {
+        private void SearchBox_TextChanged(object sender, EventArgs e) 
+        {
             _findButton.Enabled = !String.IsNullOrEmpty(_searchBox.Text);
         }
     }

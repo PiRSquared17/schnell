@@ -51,7 +51,7 @@ namespace WikiPad {
             this._searchBox.Name = "_searchBox";
             this._searchBox.Size = new System.Drawing.Size(212, 20);
             this._searchBox.TabIndex = 1;
-            this._searchBox.TextChanged += new System.EventHandler(this._searchBox_TextChanged);
+            this._searchBox.TextChanged += new System.EventHandler(this.SearchBox_TextChanged);
             // 
             // _findButton
             // 
@@ -62,7 +62,7 @@ namespace WikiPad {
             this._findButton.TabIndex = 2;
             this._findButton.Text = "&Find";
             this._findButton.UseVisualStyleBackColor = true;
-            this._findButton.Click += new System.EventHandler(this._findButton_Click);
+            this._findButton.Click += new System.EventHandler(this.FindButton_Click);
             // 
             // _matchCaseCheckBox
             // 
@@ -116,7 +116,7 @@ namespace WikiPad {
             this._cancelButton.TabIndex = 5;
             this._cancelButton.Text = "Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
-            this._cancelButton.Click += new System.EventHandler(this._cancelButton_Click);
+            this._cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // FindForm
             // 
