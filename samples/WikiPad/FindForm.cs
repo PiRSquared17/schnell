@@ -53,9 +53,8 @@ namespace WikiPad {
             textBox.ScrollToCaret();
         }
 
-        private void FindForm_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar ==  27)
-                Close();
+        private void _cancelButton_Click(object sender, EventArgs e) {
+            Close();
         }
     }
 

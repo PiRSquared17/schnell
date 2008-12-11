@@ -30,8 +30,9 @@ namespace WikiPad {
             this._findButton = new System.Windows.Forms.Button();
             this._matchCaseCheckBox = new System.Windows.Forms.CheckBox();
             this._groupBox = new System.Windows.Forms.GroupBox();
-            this._upRadioButton = new System.Windows.Forms.RadioButton();
             this._downRadioButton = new System.Windows.Forms.RadioButton();
+            this._upRadioButton = new System.Windows.Forms.RadioButton();
+            this._cancelButton = new System.Windows.Forms.Button();
             this._groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,16 +83,6 @@ namespace WikiPad {
             this._groupBox.TabStop = false;
             this._groupBox.Text = "Direction";
             // 
-            // _upRadioButton
-            // 
-            this._upRadioButton.AutoSize = true;
-            this._upRadioButton.Location = new System.Drawing.Point(7, 20);
-            this._upRadioButton.Name = "_upRadioButton";
-            this._upRadioButton.Size = new System.Drawing.Size(39, 17);
-            this._upRadioButton.TabIndex = 0;
-            this._upRadioButton.Text = "Up";
-            this._upRadioButton.UseVisualStyleBackColor = true;
-            // 
             // _downRadioButton
             // 
             this._downRadioButton.AutoSize = true;
@@ -104,24 +95,45 @@ namespace WikiPad {
             this._downRadioButton.Text = "Down";
             this._downRadioButton.UseVisualStyleBackColor = true;
             // 
+            // _upRadioButton
+            // 
+            this._upRadioButton.AutoSize = true;
+            this._upRadioButton.Location = new System.Drawing.Point(7, 20);
+            this._upRadioButton.Name = "_upRadioButton";
+            this._upRadioButton.Size = new System.Drawing.Size(39, 17);
+            this._upRadioButton.TabIndex = 0;
+            this._upRadioButton.Text = "Up";
+            this._upRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // _cancelButton
+            // 
+            this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._cancelButton.Location = new System.Drawing.Point(294, 38);
+            this._cancelButton.Name = "_cancelButton";
+            this._cancelButton.Size = new System.Drawing.Size(101, 23);
+            this._cancelButton.TabIndex = 5;
+            this._cancelButton.Text = "Cancel";
+            this._cancelButton.UseVisualStyleBackColor = true;
+            this._cancelButton.Click += new System.EventHandler(this._cancelButton_Click);
+            // 
             // FindForm
             // 
             this.AcceptButton = this._findButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 113);
+            this.CancelButton = this._cancelButton;
+            this.ClientSize = new System.Drawing.Size(417, 113);
+            this.Controls.Add(this._cancelButton);
             this.Controls.Add(this._groupBox);
             this.Controls.Add(this._matchCaseCheckBox);
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
             this.Controls.Add(this._findLabel);
-            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Find";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FindForm_KeyPress);
             this._groupBox.ResumeLayout(false);
             this._groupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -138,5 +150,6 @@ namespace WikiPad {
         private GroupBox _groupBox;
         private RadioButton _downRadioButton;
         private RadioButton _upRadioButton;
+        private Button _cancelButton;
     }
 }
