@@ -84,6 +84,7 @@
             this._replaceButton.TabIndex = 5;
             this._replaceButton.Text = "&Replace";
             this._replaceButton.UseVisualStyleBackColor = true;
+            this._replaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
             // 
             // _ReplaceAll
             // 
