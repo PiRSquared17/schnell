@@ -22,7 +22,7 @@
             Find(_textBox, _searchBox.Text, _matchCaseCheckBox.Checked, _upRadioButton.Checked);
         }
 
-        private static void Find(TextBoxBase textBox, string findString, bool caseSensitive, bool upwards) 
+        internal static void Find(TextBoxBase textBox, string findString, bool caseSensitive, bool upwards) 
         {
             var comparison = caseSensitive
                            ? StringComparison.CurrentCulture 

@@ -552,13 +552,15 @@ namespace WikiPad
             return command.Bind(target);
         }
 
-        private void findToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void findToolStripMenuItem_Click(object sender, EventArgs e) 
+        {
             FindForm findForm = new FindForm(_wikiBox);
             findForm.Show(this);
         }
 
-        private void replaceToolStripMenuItem_Click(object sender, EventArgs e) {
-            ReplaceForm replaceForm = new ReplaceForm();
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e) 
+        {
+            ReplaceForm replaceForm = new ReplaceForm(_wikiBox);
             replaceForm.Show(this);
         }
 
