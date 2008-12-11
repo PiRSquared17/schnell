@@ -557,6 +557,11 @@ namespace WikiPad
             findForm.Show(this);
         }
 
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e) {
+            ReplaceForm replaceForm = new ReplaceForm();
+            replaceForm.Show(this);
+        }
+
         //
         // Help menus
         //
@@ -565,6 +570,8 @@ namespace WikiPad
         {
             Process.Start("http://code.google.com/p/support/wiki/WikiSyntax");
         }
+
+
 
 
     }
