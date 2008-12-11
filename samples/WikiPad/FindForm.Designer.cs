@@ -29,6 +29,10 @@ namespace WikiPad {
             this._searchBox = new System.Windows.Forms.TextBox();
             this._findButton = new System.Windows.Forms.Button();
             this._matchCaseCheckBox = new System.Windows.Forms.CheckBox();
+            this._groupBox = new System.Windows.Forms.GroupBox();
+            this._upRadioButton = new System.Windows.Forms.RadioButton();
+            this._downRadioButton = new System.Windows.Forms.RadioButton();
+            this._groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // _findLabel
@@ -67,12 +71,46 @@ namespace WikiPad {
             this._matchCaseCheckBox.Text = "Match case";
             this._matchCaseCheckBox.UseVisualStyleBackColor = true;
             // 
+            // _groupBox
+            // 
+            this._groupBox.Controls.Add(this._downRadioButton);
+            this._groupBox.Controls.Add(this._upRadioButton);
+            this._groupBox.Location = new System.Drawing.Point(164, 52);
+            this._groupBox.Name = "_groupBox";
+            this._groupBox.Size = new System.Drawing.Size(123, 48);
+            this._groupBox.TabIndex = 4;
+            this._groupBox.TabStop = false;
+            this._groupBox.Text = "Direction";
+            // 
+            // _upRadioButton
+            // 
+            this._upRadioButton.AutoSize = true;
+            this._upRadioButton.Location = new System.Drawing.Point(7, 20);
+            this._upRadioButton.Name = "_upRadioButton";
+            this._upRadioButton.Size = new System.Drawing.Size(39, 17);
+            this._upRadioButton.TabIndex = 0;
+            this._upRadioButton.Text = "Up";
+            this._upRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // _downRadioButton
+            // 
+            this._downRadioButton.AutoSize = true;
+            this._downRadioButton.Checked = true;
+            this._downRadioButton.Location = new System.Drawing.Point(53, 20);
+            this._downRadioButton.Name = "_downRadioButton";
+            this._downRadioButton.Size = new System.Drawing.Size(53, 17);
+            this._downRadioButton.TabIndex = 1;
+            this._downRadioButton.TabStop = true;
+            this._downRadioButton.Text = "Down";
+            this._downRadioButton.UseVisualStyleBackColor = true;
+            // 
             // FindForm
             // 
             this.AcceptButton = this._findButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 122);
+            this.ClientSize = new System.Drawing.Size(424, 113);
+            this.Controls.Add(this._groupBox);
             this.Controls.Add(this._matchCaseCheckBox);
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
@@ -84,6 +122,8 @@ namespace WikiPad {
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Find";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FindForm_KeyPress);
+            this._groupBox.ResumeLayout(false);
+            this._groupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,5 +135,8 @@ namespace WikiPad {
         private System.Windows.Forms.TextBox _searchBox;
         private System.Windows.Forms.Button _findButton;
         private CheckBox _matchCaseCheckBox;
+        private GroupBox _groupBox;
+        private RadioButton _downRadioButton;
+        private RadioButton _upRadioButton;
     }
 }
