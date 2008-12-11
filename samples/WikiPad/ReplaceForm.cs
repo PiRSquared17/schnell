@@ -67,5 +67,10 @@ namespace WikiPad
             sb.Append(operand.Substring(start + length));
             return sb.ToString();
         }
+
+        private void CancelButton_Click(object sender, EventArgs e) 
+        {
+            Close();
+        }
     }
 }

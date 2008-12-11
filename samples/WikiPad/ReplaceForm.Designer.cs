@@ -105,6 +105,7 @@
             this._cancelButton.TabIndex = 7;
             this._cancelButton.Text = "Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
+            this._cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // _matchCaseCheckBox
             // 
