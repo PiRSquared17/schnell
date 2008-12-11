@@ -51,9 +51,11 @@ namespace WikiPad {
             this._searchBox.Name = "_searchBox";
             this._searchBox.Size = new System.Drawing.Size(212, 20);
             this._searchBox.TabIndex = 1;
+            this._searchBox.TextChanged += new System.EventHandler(this._searchBox_TextChanged);
             // 
             // _findButton
             // 
+            this._findButton.Enabled = false;
             this._findButton.Location = new System.Drawing.Point(293, 8);
             this._findButton.Name = "_findButton";
             this._findButton.Size = new System.Drawing.Size(102, 23);

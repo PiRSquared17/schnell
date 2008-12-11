@@ -68,6 +68,11 @@ namespace WikiPad {
         {
             Close();
         }
+
+        /// <summary>_findButton should only be enabled when _searchBox contains text.</summary>
+        private void _searchBox_TextChanged(object sender, EventArgs e) {
+            _findButton.Enabled = !String.IsNullOrEmpty(_searchBox.Text);
+        }
     }
 
 }
