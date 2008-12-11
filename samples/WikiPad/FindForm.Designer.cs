@@ -135,6 +135,7 @@ namespace WikiPad {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Find";
             this._groupBox.ResumeLayout(false);
