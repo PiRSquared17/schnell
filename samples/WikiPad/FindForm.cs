@@ -56,7 +56,9 @@
             }
             else
             {
-                return text.LastIndexOf(sought, 0, start, comparison);
+                if (start == 0)
+                    return -1;
+                return text.LastIndexOf(sought, start -1, start -1, comparison);
             }
         }
 
