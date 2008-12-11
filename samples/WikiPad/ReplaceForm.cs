@@ -70,7 +70,7 @@ namespace WikiPad
 
         private void CancelButton_Click(object sender, EventArgs e) 
         {
-            Close();
+            Hide();
         }
     }
 }

@@ -57,6 +57,7 @@ namespace WikiPad
         private Uri _lastImportedUrl;
         private readonly Dictionary<Type, ICommandContainer> _commandsByType;
         private readonly ControlFocusWatchdog _focusWatchdog;
+        private ReplaceForm replaceForm;
         
         private static readonly Regex _tagExpression = new Regex(@"\</?[a-z]+(.*?)\>", 
             RegexOptions.IgnoreCase
@@ -560,7 +561,8 @@ namespace WikiPad
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e) 
         {
-            ReplaceForm replaceForm = new ReplaceForm(_wikiBox);
+            if (replaceForm == null)
+                replaceForm = new ReplaceForm(_wikiBox);
             replaceForm.Show(this);
         }
 
