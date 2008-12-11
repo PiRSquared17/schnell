@@ -43,7 +43,7 @@ namespace WikiPad {
             this._findLabel.Name = "_findLabel";
             this._findLabel.Size = new System.Drawing.Size(56, 13);
             this._findLabel.TabIndex = 0;
-            this._findLabel.Text = "Find what:";
+            this._findLabel.Text = "Fi&nd what:";
             // 
             // _searchBox
             // 
@@ -58,7 +58,7 @@ namespace WikiPad {
             this._findButton.Name = "_findButton";
             this._findButton.Size = new System.Drawing.Size(102, 23);
             this._findButton.TabIndex = 2;
-            this._findButton.Text = "Find";
+            this._findButton.Text = "&Find";
             this._findButton.UseVisualStyleBackColor = true;
             this._findButton.Click += new System.EventHandler(this._findButton_Click);
             // 
@@ -69,7 +69,7 @@ namespace WikiPad {
             this._matchCaseCheckBox.Name = "_matchCaseCheckBox";
             this._matchCaseCheckBox.Size = new System.Drawing.Size(82, 17);
             this._matchCaseCheckBox.TabIndex = 3;
-            this._matchCaseCheckBox.Text = "Match case";
+            this._matchCaseCheckBox.Text = "Match &case";
             this._matchCaseCheckBox.UseVisualStyleBackColor = true;
             // 
             // _groupBox
@@ -92,7 +92,7 @@ namespace WikiPad {
             this._downRadioButton.Size = new System.Drawing.Size(53, 17);
             this._downRadioButton.TabIndex = 1;
             this._downRadioButton.TabStop = true;
-            this._downRadioButton.Text = "Down";
+            this._downRadioButton.Text = "&Down";
             this._downRadioButton.UseVisualStyleBackColor = true;
             // 
             // _upRadioButton
@@ -102,7 +102,7 @@ namespace WikiPad {
             this._upRadioButton.Name = "_upRadioButton";
             this._upRadioButton.Size = new System.Drawing.Size(39, 17);
             this._upRadioButton.TabIndex = 0;
-            this._upRadioButton.Text = "Up";
+            this._upRadioButton.Text = "&Up";
             this._upRadioButton.UseVisualStyleBackColor = true;
             // 
             // _cancelButton
