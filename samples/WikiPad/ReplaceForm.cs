@@ -34,12 +34,8 @@ namespace WikiPad
                 WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
                 return;
             }
-            StringBuilder sb = new StringBuilder();
-            string text = _textBox.Text;
-            sb.Append(text.Substring(0, _textBox.SelectionStart));
-            sb.Append(_replaceTextBox.Text);
-            sb.Append(text.Substring(_textBox.SelectionStart + _textBox.SelectionLength));
-            _textBox.Text = sb.ToString();
+
+            _textBox.Text = Replace(_textBox.Text, _replaceTextBox.Text, _textBox.SelectionStart, _textBox.SelectionLength);
 
             // jump to the next occurence of searched string so user can replace one by one
             WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
@@ -47,7 +43,29 @@ namespace WikiPad
 
         private void ReplaceAll_Click(object sender, EventArgs e) {
             if (!_matchCaseCheckBox.Checked)
+            {
                 _textBox.Text = _textBox.Text.Replace(_searchTextBox.Text, _replaceTextBox.Text);
+                return;
+            }
+            int position = 0;
+            int hit;
+            while ((hit = _textBox.Text.IndexOf(_searchTextBox.Text, position, StringComparison.CurrentCulture)) >= 0)
+            {
+                _textBox.Text = Replace(_textBox.Text, _replaceTextBox.Text, hit, _replaceTextBox.Text.Length);
+                position = hit + _replaceTextBox.Text.Length;
+            }
+        }
+
+        /// <summary>
+        /// Replaces specified range of operand by newValue.
+        /// </summary>
+        private static string Replace(string operand, string newValue, int start, int length)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(operand.Substring(0, start));
+            sb.Append(newValue);
+            sb.Append(operand.Substring(start + length));
+            return sb.ToString();
         }
     }
 }
