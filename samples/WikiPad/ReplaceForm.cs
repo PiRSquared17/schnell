@@ -44,5 +44,10 @@ namespace WikiPad
             // jump to the next occurence of searched string so user can replace one by one
             WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
         }
+
+        private void ReplaceAll_Click(object sender, EventArgs e) {
+            if (!_matchCaseCheckBox.Checked)
+                _textBox.Text = _textBox.Text.Replace(_searchTextBox.Text, _replaceTextBox.Text);
+        }
     }
 }

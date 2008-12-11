@@ -94,6 +94,7 @@
             this._ReplaceAll.TabIndex = 6;
             this._ReplaceAll.Text = "Replace &All";
             this._ReplaceAll.UseVisualStyleBackColor = true;
+            this._ReplaceAll.Click += new System.EventHandler(this.ReplaceAll_Click);
             // 
             // _cancelButton
             // 
