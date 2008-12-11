@@ -131,6 +131,7 @@ namespace WikiPad {
             this.Controls.Add(this._findButton);
             this.Controls.Add(this._searchBox);
             this.Controls.Add(this._findLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindForm";
