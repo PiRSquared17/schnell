@@ -24,49 +24,45 @@
 
         private static void Find(TextBoxBase textBox, string findString, bool caseSensitive, bool upwards) 
         {
-            if (textBox.Text.IndexOf(findString, caseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) == -1)
+            var comparison = caseSensitive
+                           ? StringComparison.CurrentCulture 
+                           : StringComparison.CurrentCultureIgnoreCase;
+
+            var text = textBox.Text;
+            if (text.IndexOf(findString, comparison) == -1)
             {
-                MessageBox.Show(String.Format("Cannot find \"{0}\"", findString), Application.ProductName);
+                ShowFormattedMessageBox("Cannot find \"{0}\".", findString);
                 return;
             }
 
-            int searchPosition;
-            if (!upwards) // search downwards
+            var foundIndex = Find(text, textBox.SelectionStart, textBox.SelectionLength, findString, comparison, upwards);
+            if (foundIndex == -1)
             {
-                if (textBox.SelectionStart == textBox.Text.Length) textBox.SelectionStart = 0;
-                searchPosition = textBox.SelectionStart >= 0 ? textBox.SelectionStart + textBox.SelectionLength : 0;
-                
-                if (caseSensitive)
-                    searchPosition = textBox.Text.IndexOf(findString, searchPosition, StringComparison.CurrentCulture);
-                else
-                    searchPosition = textBox.Text.IndexOf(findString, searchPosition,
-                                                          StringComparison.CurrentCultureIgnoreCase);
-                if (searchPosition == -1)
-                {
-                    MessageBox.Show(String.Format("No further occurences of \"{0}\" have been found", findString),
-                                    Application.ProductName);
-                    return;
-                }
+                ShowFormattedMessageBox("No further occurences of \"{0}\" have been found.", findString);
+                return;
             }
-            else // search upwards
-            {
-                string toBeSearched = textBox.Text.Substring(0, textBox.SelectionStart);
 
-                if (caseSensitive)
-                    searchPosition = toBeSearched.LastIndexOf(findString, StringComparison.CurrentCulture);
-                else
-                    searchPosition = toBeSearched.LastIndexOf(findString, StringComparison.CurrentCultureIgnoreCase);
-
-                if (searchPosition == -1) 
-                {
-                    MessageBox.Show(String.Format("No further occurences of \"{0}\" have been found", findString),
-                                    Application.ProductName);
-                    return;
-                }
-            }
-            textBox.SelectionStart = searchPosition;
-            textBox.SelectionLength = findString.Length;
+            textBox.Select(foundIndex, findString.Length);
             textBox.ScrollToCaret();
+        }
+
+        private static int Find(string text, int start, int count, string sought, StringComparison comparison, bool upwards)
+        {
+            if (!upwards)
+            {
+                if (start == text.Length) start = 0;
+                start = start >= 0 ? start + count : 0;
+                return text.IndexOf(sought, start, comparison);
+            }
+            else
+            {
+                return text.LastIndexOf(sought, 0, start, comparison);
+            }
+        }
+
+        private static void ShowFormattedMessageBox(string format, params object[] args)
+        {
+            MessageBox.Show(string.Format(format, args), Application.ProductName);
         }
 
         private void CancelButton_Click(object sender, EventArgs e) 
@@ -76,7 +72,7 @@
 
         private void SearchBox_TextChanged(object sender, EventArgs e) 
         {
-            _findButton.Enabled = !String.IsNullOrEmpty(_searchBox.Text);
+            _findButton.Enabled = !string.IsNullOrEmpty(_searchBox.Text);
         }
     }
 
