@@ -32,6 +32,7 @@
             this._ReplaceAll = new System.Windows.Forms.Button();
             this._cancelButton = new System.Windows.Forms.Button();
             this._matchCaseCheckBox = new System.Windows.Forms.CheckBox();
+            this._regexCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -110,12 +111,22 @@
             // _matchCaseCheckBox
             // 
             this._matchCaseCheckBox.AutoSize = true;
-            this._matchCaseCheckBox.Location = new System.Drawing.Point(16, 100);
+            this._matchCaseCheckBox.Location = new System.Drawing.Point(16, 82);
             this._matchCaseCheckBox.Name = "_matchCaseCheckBox";
             this._matchCaseCheckBox.Size = new System.Drawing.Size(82, 17);
             this._matchCaseCheckBox.TabIndex = 8;
             this._matchCaseCheckBox.Text = "Match &case";
             this._matchCaseCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // _regexCheckBox
+            // 
+            this._regexCheckBox.AutoSize = true;
+            this._regexCheckBox.Location = new System.Drawing.Point(16, 102);
+            this._regexCheckBox.Name = "_regexCheckBox";
+            this._regexCheckBox.Size = new System.Drawing.Size(144, 17);
+            this._regexCheckBox.TabIndex = 9;
+            this._regexCheckBox.Text = "&Use Regular Expressions";
+            this._regexCheckBox.UseVisualStyleBackColor = true;
             // 
             // ReplaceForm
             // 
@@ -124,6 +135,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancelButton;
             this.ClientSize = new System.Drawing.Size(391, 128);
+            this.Controls.Add(this._regexCheckBox);
             this.Controls.Add(this._matchCaseCheckBox);
             this.Controls.Add(this._cancelButton);
             this.Controls.Add(this._ReplaceAll);
@@ -156,5 +168,6 @@
         private System.Windows.Forms.Button _ReplaceAll;
         private System.Windows.Forms.Button _cancelButton;
         private System.Windows.Forms.CheckBox _matchCaseCheckBox;
+        private System.Windows.Forms.CheckBox _regexCheckBox;
     }
 }
