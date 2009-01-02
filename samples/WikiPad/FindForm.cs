@@ -62,7 +62,7 @@
             }
         }
 
-        private static void ShowFormattedMessageBox(string format, params object[] args)
+        internal static void ShowFormattedMessageBox(string format, params object[] args)
         {
             MessageBox.Show(string.Format(format, args), Application.ProductName);
         }
