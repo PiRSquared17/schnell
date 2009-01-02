@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace WikiPad 
+﻿namespace WikiPad 
 {
 
     #region Imports
 
+    using System;
     using System.Windows.Forms;
     using System.Text;
 
@@ -41,7 +40,8 @@ namespace WikiPad
             WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
         }
 
-        private void ReplaceAll_Click(object sender, EventArgs e) {
+        private void ReplaceAll_Click(object sender, EventArgs e) 
+        {
             if (!_matchCaseCheckBox.Checked)
             {
                 _textBox.Text = _textBox.Text.Replace(_searchTextBox.Text, _replaceTextBox.Text);
@@ -70,7 +70,8 @@ namespace WikiPad
 
         private void CancelButton_Click(object sender, EventArgs e) 
         {
-            Hide();
+            // Hide() would cause replaceForm to be disposed
+            Visible = false;
         }
     }
 }
