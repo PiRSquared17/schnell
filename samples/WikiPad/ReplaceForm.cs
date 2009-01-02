@@ -6,12 +6,14 @@
     using System;
     using System.Windows.Forms;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     #endregion
 
     public partial class ReplaceForm : Form 
     {
         private readonly TextBoxBase _textBox;
+
         public ReplaceForm(TextBoxBase textBox) 
         {
             InitializeComponent();
@@ -20,7 +22,8 @@
 
         private void FindButton_Click(object sender, System.EventArgs e) 
         {
-            WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
+            if (_regexCheckBox.Checked) FindRegex(_textBox, new Regex(_searchTextBox.Text));
+            else WikiPad.FindForm.Find(_textBox, _searchTextBox.Text, _matchCaseCheckBox.Checked, false);
         }
 
         private void ReplaceButton_Click(object sender, System.EventArgs e) 
@@ -66,6 +69,18 @@
             sb.Append(newValue);
             sb.Append(operand.Substring(start + length));
             return sb.ToString();
+        }
+
+        internal static void FindRegex(TextBoxBase textBox, Regex regex) {
+            Match match = regex.Match(textBox.Text, textBox.SelectionLength == 0 ? textBox.SelectionStart : textBox.SelectionStart + textBox.SelectionLength);
+            if (!match.Success)
+            {
+                WikiPad.FindForm.ShowFormattedMessageBox("No further occurences of RegularExpression \"{0}\" have been found.", regex.ToString());
+                return;
+            }
+            textBox.SelectionStart = match.Index;
+            textBox.SelectionLength = match.Length;
+            textBox.ScrollToCaret();
         }
 
         private void CancelButton_Click(object sender, EventArgs e) 
